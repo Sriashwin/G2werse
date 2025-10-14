@@ -1,3 +1,4 @@
+//pages/Stories.js
 import React, { useState, useEffect, useRef } from "react"; 
 import '../App.css';
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
@@ -36,7 +37,7 @@ export default function Stories({ onDataLoaded }) {
   );
 }
 
-// --- StoryCard same as before ---
+// --- StoryCard ---
 function StoryCard({ story }) {
   const [hover, setHover] = useState(false);
   const timerRef = useRef(null);
@@ -67,7 +68,7 @@ function StoryCard({ story }) {
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
     >
-      <img src={story.cover} alt={story.title} style={styles.image} />
+      <img src={`${process.env.PUBLIC_URL}/${story.cover}`} alt={story.title} style={styles.image} />
       <div
         className={`hover-info-animate${hover ? " active" : ""}`}
         style={styles.hoverInfo}
@@ -80,7 +81,7 @@ function StoryCard({ story }) {
   );
 }
 
-// --- STYLES (same as your previous Stories.jsx) ---
+// --- STYLES ---
 const styles = {
   container: {
     backgroundColor: "transparent",

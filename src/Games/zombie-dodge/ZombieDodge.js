@@ -13,7 +13,7 @@ const ZOMBIE_SIZE = 40;
 const RESOURCE_SIZE = 32;
 const ZOMBIE_SPEED = 2.5;
 const RESOURCE_SPEED = 2;
-const ROUND_TIME = 30; // seconds
+const ROUND_TIME = 30;
 
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min)) + min;

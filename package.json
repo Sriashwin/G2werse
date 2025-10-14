@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "main.js",
+  "homepage": "https://Sriashwin.github.io/G2werse",
   "dependencies": {
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.8.0",
@@ -17,10 +18,10 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "react-start": "react-scripts start",
-    "electron-start": "wait-on http://localhost:3000 && electron .",
-    "dev": "concurrently \"npm run react-start\" \"npm run electron-start\"",
     "build": "react-scripts build"
   },
   "eslintConfig": {
@@ -42,8 +43,6 @@
     ]
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "electron": "^38.2.2",
-    "wait-on": "^9.0.1"
+    "gh-pages": "^6.3.0"
   }
 }

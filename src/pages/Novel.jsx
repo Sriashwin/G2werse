@@ -111,7 +111,7 @@ function NovelCard({ book }) {
       onTouchEnd={handleTouchEnd}
     >
       <Link to={book.locked ? "#" : book.link} style={styles.fullLink}>
-        <img src={book.image} alt="Book Cover" style={styles.novelImage} />
+        <img src={`${process.env.PUBLIC_URL}/${book.image}`} alt="Book Cover" style={styles.novelImage} />
       </Link>
 
       {book.locked && <div style={styles.lockedOverlay}>TBA</div>}

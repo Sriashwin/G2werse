@@ -108,7 +108,6 @@ const CatchTiger = () => {
   }, [keysPressed, obstacles, caught]);
 
   // Tiger movement (runs away, smooth, can jump over obstacles)
-  // Tiger movement (runs away, smooth, always active)
 useEffect(() => {
   if (caught) return;
 

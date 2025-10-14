@@ -1,3 +1,4 @@
+//App.js
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 
@@ -49,7 +50,7 @@ function AppContent() {
         <video
           id="preloader-video"
           className="preloader-video"
-          src="/intro.mp4"
+          src={`${process.env.PUBLIC_URL}/intro.mp4`}
           autoPlay
           preload="metadata" 
           muted
@@ -61,7 +62,7 @@ function AppContent() {
       <div style={{ ...styles.appContainer }}>
         {/* HERO SECTION */}
         <div style={styles.heroSection}>
-          <img src="/banner.jpg" alt="A Rise of the War" style={styles.heroImage} />
+          <img src={`${process.env.PUBLIC_URL}/banner.jpg`} alt="A Rise of the War" style={styles.heroImage} />
           <div style={styles.heroOverlay}>
             <h1 style={styles.heroTitle}>G2WERSE</h1>
             <p style={styles.heroSubtitle}>
