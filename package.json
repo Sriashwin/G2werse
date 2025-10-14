@@ -1,5 +1,9 @@
 {
   "name": "g2werse",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Sriashwin/G2werse.git"
+  },
   "version": "0.1.0",
   "private": true,
   "main": "main.js",
@@ -19,7 +23,7 @@
   },
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d build -r https://github.com/Sriashwin/G2werse.git",
     "start": "react-scripts start",
     "react-start": "react-scripts start",
     "build": "react-scripts build"
