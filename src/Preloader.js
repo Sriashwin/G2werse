@@ -66,11 +66,14 @@ export default function Preloader({ onFinish, videoSrc, fallbackImage }) {
         ) : (
           <video
             id="preloader-video"
-            className="preloader-video"
             src={videoSrc}
             autoPlay
             muted
             playsInline
+            width="1920"
+            height="1080"
+            style={{ objectFit: "cover" }}
+            preload="auto"
           />
         )}
       </div>
