@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
+  color: #ddd;
+  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+* {
+  -webkit-text-stroke: 0.2px transparent; /* Subtle edge smoothing */
+}

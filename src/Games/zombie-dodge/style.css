@@ -1,0 +1,113 @@
+.zd-bg {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Orbitron', 'Segoe UI', 'monospace', sans-serif;
+}
+
+.zd-title {
+  font-size: 2.1rem;
+  margin-top: 32px;
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 18px #00f, 0 0 4px #00f;
+}
+
+.zd-info {
+  margin: 20px 0;
+  display: flex;
+  gap: 38px;
+  font-size: 1.15rem;
+  align-items: center;
+}
+
+.zd-btn {
+  padding: 8px 16px;
+  font-size: 1rem;
+  border-radius: 24px;
+  background: #111;
+  color: #00f;
+  border: 2px solid #00f;
+  box-shadow: 0 0 10px #00f;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  font-family: inherit;
+  text-shadow: 0 0 5px #00f;
+}
+
+.zd-btn:hover {
+  background: #002;
+  box-shadow: 0 0 14px #00f, 0 0 36px #00f;
+}
+
+.zd-game-area {
+  position: relative;
+  border: 2px solid #00f;
+  background: linear-gradient(180deg, #15151a 60%, #000 100%);
+  box-shadow: 0 0 24px 4px #00f inset;
+  margin-bottom: 24px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.zd-entity {
+  position: absolute;
+  font-size: 2rem;
+  user-select: none;
+  pointer-events: none;
+  filter: drop-shadow(0 0 12px #00f);
+}
+
+.zd-player {
+  text-shadow: 0 0 18px #00f, 0 0 8px #00f;
+  z-index: 9;
+}
+
+.zd-zombie {
+  filter: drop-shadow(0 0 14px #00f) brightness(1.5);
+  opacity: 0.88;
+}
+
+.zd-resource {
+  filter: drop-shadow(0 0 13px #00f) brightness(2);
+  opacity: 0.92;
+}
+
+.zd-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 32, 0.78);
+  color: #00f;
+  padding: 38px 54px;
+  border-radius: 18px;
+  font-size: 1.6rem;
+  text-align: center;
+  box-shadow: 0 0 40px #00f;
+  z-index: 99;
+}
+
+.zd-tip {
+  margin-top: 14px;
+  color: #58affe;
+  font-size: 1rem;
+  text-shadow: 0 0 6px #00f;
+  opacity: 0.94;
+}
+
+.zd-controls {
+  background: #111;
+  color: #00f;
+  border-radius: 9px;
+  padding: 1px 7px;
+  text-shadow: 0 0 9px #00f;
+}
+
+.zd-resource-tip,
+.zd-zombie-tip {
+  text-shadow: 0 0 8px #00f;
+  filter: brightness(1.8);
+}
