@@ -137,9 +137,13 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       const dead = playerRef.current.isDead();
 
       if (!running && !dead) {
-        ctx.fillStyle = "#fff";
-        ctx.font = "24px Arial";
+        ctx.fillStyle = "#0ff";
+        ctx.font = "32px Arial";
         ctx.textAlign = "center";
+        ctx.shadowColor = "#0ff";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.fillText("Click Start to Play", CANVAS_W / 2, CANVAS_H / 2);
         drawBoundary(ctx); // draw boundary even in idle state
         requestRef.current = requestAnimationFrame(loop);
@@ -200,9 +204,13 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       if (dead) {
         setRunning(false);
         setGameOver(true);
-        ctx.fillStyle = "red";
-        ctx.font = "48px Arial";
+        ctx.fillStyle = "#0ff";
+        ctx.font = "32px Arial";
         ctx.textAlign = "center";
+        ctx.shadowColor = "#0ff";
+        ctx.shadowBlur = 10;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
         ctx.fillText("GAME OVER", CANVAS_W / 2, CANVAS_H / 2);
         return;
       }

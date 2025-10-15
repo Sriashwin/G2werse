@@ -50,14 +50,14 @@ export default function TopdownZombieShooter() {
         <button
           style={{
           marginTop: "20px",
-          padding: "10px 20px",
-          backgroundColor: "#00f",
-          color: "#000",
-          border: "none",
-          borderRadius: "5px",
-          cursor: "pointer",
-          fontWeight: "bold",
-          boxShadow: "0 0 10px #00f",
+              padding: "10px 20px",
+              backgroundColor: "#00f",
+              color: "#000",
+              border: "none",
+              borderRadius: "5px",
+              cursor: "pointer",
+              fontWeight: "bold",
+              boxShadow: "0 0 10px #00f",
           }}
           onClick={handleStartPause}
         >
