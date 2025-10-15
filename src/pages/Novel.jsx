@@ -1,8 +1,9 @@
-// src/pages/Novel.jsx
 import React, { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Novel() {
+  const navigate = useNavigate();
+
   const novels = [
     {
       image: "book1.png",
@@ -71,74 +72,78 @@ export default function Novel() {
 
       <div style={styles.row}>
         {topRow.map((book, index) => (
-          <NovelCard key={index} book={book} />
+          <NovelCard key={index} book={book} navigate={navigate} />
+        ))}
+      </div>
+      <div style={styles.row}>
+        {bottomRow.map((book, index) => (
+          <NovelCard key={index} book={book} navigate={navigate} />
         ))}
       </div>
 
-      <div style={styles.row}>
-        {bottomRow.map((book, index) => (
-          <NovelCard key={index} book={book} />
-        ))}
-      </div>
+      <p style={styles.hint}>
+        Desktop: Hover to see description, click to open. <br />
+        Mobile: Tap once to see description, tap again to open.
+      </p>
     </div>
   );
 }
 
-function NovelCard({ book }) {
+function NovelCard({ book, navigate }) {
   const [hover, setHover] = useState(false);
-  const lastTapRef = useRef(0);
+  const [tapped, setTapped] = useState(false);
+  const isTouchDevice = useRef(
+    "ontouchstart" in window || navigator.maxTouchPoints > 0
+  ).current;
 
-  // Desktop hover
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
-
-  // Mobile tap-to-hover
-  const handleTouchStart = (e) => {
-    const now = Date.now();
-    const timeSince = now - lastTapRef.current;
-
-    if (timeSince < 300 && hover && !book.locked) {
-      e.preventDefault();
-      return;
-    }
-
-    lastTapRef.current = now;
-    setHover((prev) => !prev);
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) setHover(true);
   };
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) setHover(false);
+    setTapped(false);
+  };
+
+  const handleClick = (e) => {
+    if (book.locked) return;
+
+    if (isTouchDevice) {
+      e.preventDefault();
+      if (!tapped) setTapped(true);
+      else navigate(book.link);
+    } else {
+      navigate(book.link);
+    }
+  };
+
+  const showInfo = book.locked ? false : isTouchDevice ? tapped : hover;
 
   return (
     <div
       style={{
         ...styles.novelCard,
-        transform: hover ? "scale(1.1)" : "scale(1)",
-        zIndex: hover ? 5 : 1,
+        transform: showInfo ? "scale(1.1)" : "scale(1)",
+        zIndex: showInfo ? 5 : 1,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
+      onClick={handleClick}
     >
       <img
         src={`${process.env.PUBLIC_URL}/${book.image}`}
-        alt="Book Cover"
+        alt={book.title}
         style={styles.novelImage}
         draggable="false"
       />
 
       {book.locked && <div style={styles.lockedOverlay}>TBA</div>}
 
-      {book.locked ? (
-        <div style={styles.lockedOverlay}>TBA</div>
-      ) : (
-        hover && (
-          <div style={styles.hoverInfo}>
-            <h3 style={styles.bookTitle}>{book.title}</h3>
-            <p style={styles.genre}>{book.genre}</p>
-            <p style={styles.synopsis}>{book.synopsis}</p>
-            <Link to={book.link} style={styles.readStoryLink}>
-              Explore
-            </Link>
-          </div>
-        )
+      {showInfo && !book.locked && (
+        <div style={styles.hoverInfo}>
+          <h3 style={styles.bookTitle}>{book.title}</h3>
+          <p style={styles.genre}>{book.genre}</p>
+          <p style={styles.synopsis}>{book.synopsis}</p>
+        </div>
       )}
     </div>
   );
@@ -233,14 +238,9 @@ const styles = {
     color: "#ddd",
     margin: "0 0 8px 0",
   },
-  readStoryLink: {
-    color: "#1e90ff",
-    fontSize: "0.75rem",
-    // fontWeight: 600,
-    textAlign: "center",
-    textDecoration: "underline",
-    marginTop: "1px",
-    display: "inline-block",
-    alignSelf: "center",
+  hint: {
+    marginTop: "20px",
+    fontSize: "0.9rem",
+    color: "#aaa",
   },
 };

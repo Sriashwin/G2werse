@@ -6,7 +6,6 @@ export default function Stories({ onDataLoaded }) {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
-    // ✅ Local dataset
     const localData = [
       {
         title: "In The World of War",
@@ -32,7 +31,6 @@ export default function Stories({ onDataLoaded }) {
       },
     ];
 
-    // Set and notify parent
     setStories(localData);
     if (onDataLoaded) onDataLoaded();
   }, [onDataLoaded]);
@@ -46,6 +44,11 @@ export default function Stories({ onDataLoaded }) {
           <StoryCard key={index} story={story} />
         ))}
       </div>
+
+      <p style={styles.hint}>
+        Desktop: Hover to see description, click to open. <br />
+        Mobile: Tap once to see description, tap again to open.
+      </p>
     </div>
   );
 }
@@ -53,35 +56,49 @@ export default function Stories({ onDataLoaded }) {
 // --- StoryCard ---
 function StoryCard({ story }) {
   const [hover, setHover] = useState(false);
+  const [tapped, setTapped] = useState(false);
+
   const isTouchDevice = useRef(
     "ontouchstart" in window || navigator.maxTouchPoints > 0
   ).current;
 
+  // Desktop hover
   const handleMouseEnter = () => {
     if (!isTouchDevice) setHover(true);
   };
 
   const handleMouseLeave = () => {
     if (!isTouchDevice) setHover(false);
+    setTapped(false); // reset mobile tap state too, in case window resized
   };
 
-  const handleTouchStart = (e) => {
-    e.preventDefault();
-    setHover((prev) => !prev);
+  // Click / Tap
+  const handleClick = (e) => {
+    if (isTouchDevice) {
+      e.preventDefault(); // stop immediate link open
+      if (!tapped) {
+        setTapped(true); // first tap: show description
+      } else {
+        window.open(story.link, "_blank"); // second tap: open link
+      }
+    } else {
+      window.open(story.link, "_blank"); // desktop: click always opens
+    }
   };
+
+  const showInfo = isTouchDevice ? tapped : hover; // conditional for rendering info
 
   return (
     <div
       className="story-card"
       style={{
         ...styles.card,
-        transform: hover ? "scale(1.05)" : "scale(1)",
-        zIndex: hover ? 2 : 1,
+        transform: showInfo ? "scale(1.05)" : "scale(1)",
+        zIndex: showInfo ? 2 : 1,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={isTouchDevice ? handleTouchStart : undefined}
-      onContextMenu={(e) => e.preventDefault()}
+      onClick={handleClick}
     >
       <img
         src={`${process.env.PUBLIC_URL}/${story.cover}`}
@@ -90,25 +107,13 @@ function StoryCard({ story }) {
         style={styles.image}
       />
 
-      <div
-        className={`hover-info-animate${hover ? " active" : ""}`}
-        style={styles.hoverInfo}
-      >
-        <h3 style={styles.storyTitle}>{story.title}</h3>
-        <p style={styles.genre}>{story.genre}</p>
-        <p style={styles.synopsis}>{story.synopsis}</p>
-
-        {hover && (
-          <a
-            href={story.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={styles.readMore}
-          >
-            Read
-          </a>
-        )}
-      </div>
+      {showInfo && (
+        <div style={styles.hoverInfo}>
+          <h3 style={styles.storyTitle}>{story.title}</h3>
+          <p style={styles.genre}>{story.genre}</p>
+          <p style={styles.synopsis}>{story.synopsis}</p>
+        </div>
+      )}
     </div>
   );
 }
@@ -165,9 +170,6 @@ const styles = {
     overflow: "hidden",
     textAlign: "left",
     borderRadius: "0 0 10px 10px",
-    opacity: 0,
-    transform: "translateY(20px)",
-    transition: "all 0.3s ease",
   },
   storyTitle: {
     fontSize: "1rem",
@@ -184,11 +186,9 @@ const styles = {
     color: "#ddd",
     margin: 0,
   },
-  readMore: {
-    display: "block",
-    color: "#1e90ff",
-    textDecoration: "underline",
-    marginTop: "10px",
-    textAlign: "center",
+  hint: {
+    marginTop: "20px",
+    fontSize: "0.9rem",
+    color: "#aaa",
   },
 };
