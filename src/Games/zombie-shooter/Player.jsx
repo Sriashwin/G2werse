@@ -36,6 +36,18 @@ export default class Player {
   draw(ctx, camera) {
     ctx.save();
     ctx.translate(this.x - camera.x, this.y - camera.y);
+
+    // Draw gun line first
+    const gunLength = this.r + 15; // length of gun
+    ctx.strokeStyle = "#000"; // gun color
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(gunLength * Math.cos(this.angle), gunLength * Math.sin(this.angle));
+    ctx.stroke();
+    ctx.closePath();
+
+    // Draw player body
     ctx.rotate(this.angle);
     ctx.beginPath();
     ctx.arc(0, 0, this.r, 0, 2 * Math.PI);

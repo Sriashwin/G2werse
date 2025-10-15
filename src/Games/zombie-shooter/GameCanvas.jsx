@@ -3,30 +3,44 @@ import Player from "./Player";
 import Zombie from "./Zombie";
 import Bullet from "./Bullet";
 import Ammo from "./Ammo";
+import Medikit from "./Medikit"; // import Medikit
 
 const CANVAS_W = 800;
 const CANVAS_H = 600;
 const MAP_W = 2000;
 const MAP_H = 2000;
 
-export default function GameCanvas({ running, setRunning, setScore, setTimer, ammo, setAmmo, setGameOver }) {
+export default function GameCanvas({
+  running,
+  setRunning,
+  setScore,
+  setTimer,
+  ammo,
+  setAmmo,
+  setGameOver,
+}) {
   const canvasRef = useRef(null);
   const keys = useRef({});
   const playerRef = useRef(new Player(MAP_W / 2, MAP_H / 2));
   const zombiesRef = useRef([]);
   const bulletsRef = useRef([]);
   const ammoLootRef = useRef([]);
+  const medikitsRef = useRef([]); // medikits array
   const requestRef = useRef(null);
   const timerIntRef = useRef(null);
   const spawnIntRef = useRef(null);
   const lootSpawnIntRef = useRef(null);
+  const medikitSpawnIntRef = useRef(null);
   const shootIntervalRef = useRef(null);
   const isShooting = useRef(false);
   const ammoRef = useRef(ammo);
   const camera = useRef({ x: 0, y: 0 });
+  const mousePos = useRef({ x: CANVAS_W / 2, y: CANVAS_H / 2 });
 
   // Sync ammoRef
-  useEffect(() => { ammoRef.current = ammo; }, [ammo]);
+  useEffect(() => {
+    ammoRef.current = ammo;
+  }, [ammo]);
 
   // Keyboard
   useEffect(() => {
@@ -40,9 +54,22 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
     };
   }, []);
 
-  // Mouse aiming & shooting
+  // Pointer lock + mouse + shooting
   useEffect(() => {
     const canvas = canvasRef.current;
+    const requestLock = () => canvas.requestPointerLock();
+    canvas.addEventListener("click", requestLock);
+
+    const handleMouseMove = (e) => {
+      if (document.pointerLockElement === canvas) {
+        mousePos.current.x += e.movementX;
+        mousePos.current.y += e.movementY;
+
+        // Clamp inside canvas
+        mousePos.current.x = Math.max(0, Math.min(CANVAS_W, mousePos.current.x));
+        mousePos.current.y = Math.max(0, Math.min(CANVAS_H, mousePos.current.y));
+      }
+    };
 
     const shootBullet = () => {
       if (ammoRef.current > 0) {
@@ -73,22 +100,15 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       isShooting.current = false;
     };
 
-    const updateAiming = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      playerRef.current.angle = Math.atan2(
-        e.clientY - rect.top - (playerRef.current.y - camera.current.y),
-        e.clientX - rect.left - (playerRef.current.x - camera.current.x)
-      );
-    };
-
+    window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mousedown", startShooting);
     window.addEventListener("mouseup", stopShooting);
-    canvas.addEventListener("mousemove", updateAiming);
 
     return () => {
+      canvas.removeEventListener("click", requestLock);
+      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", startShooting);
       window.removeEventListener("mouseup", stopShooting);
-      canvas.removeEventListener("mousemove", updateAiming);
       clearInterval(shootIntervalRef.current);
       isShooting.current = false;
     };
@@ -107,9 +127,11 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       zombiesRef.current = [];
       bulletsRef.current = [];
       ammoLootRef.current = [];
+      medikitsRef.current = [];
       playerRef.current = new Player(MAP_W / 2, MAP_H / 2);
       playerRef.current.health = 100;
       setGameOver(false);
+      mousePos.current = { x: CANVAS_W / 2, y: CANVAS_H / 2 };
     }
 
     // Timer
@@ -130,22 +152,35 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       ammoLootRef.current.push(new Ammo(Math.random() * MAP_W, Math.random() * MAP_H));
     }, 8000);
 
+    // Spawn medikits
+    medikitSpawnIntRef.current = setInterval(() => {
+      if (!running || medikitsRef.current.length >= 5) return;
+      medikitsRef.current.push(new Medikit(Math.random() * MAP_W, Math.random() * MAP_H));
+    }, 12000);
+
+    function drawBoundary() {
+      ctx.save();
+      ctx.strokeStyle = "#00f";
+      ctx.lineWidth = 4;
+      ctx.shadowColor = "#00f";
+      ctx.shadowBlur = 16;
+      ctx.strokeRect(2, 2, CANVAS_W - 4, CANVAS_H - 4);
+      ctx.restore();
+    }
+
     function loop() {
       ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-
-      // Player death flag
       const dead = playerRef.current.isDead();
 
+      // Draw start message
       if (!running && !dead) {
         ctx.fillStyle = "#0ff";
         ctx.font = "32px Arial";
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
         ctx.shadowBlur = 10;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
         ctx.fillText("Click Start to Play", CANVAS_W / 2, CANVAS_H / 2);
-        drawBoundary(ctx); // draw boundary even in idle state
+        drawBoundary();
         requestRef.current = requestAnimationFrame(loop);
         return;
       }
@@ -155,9 +190,16 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       camera.current.x = Math.min(Math.max(0, playerRef.current.x - CANVAS_W / 2), MAP_W - CANVAS_W);
       camera.current.y = Math.min(Math.max(0, playerRef.current.y - CANVAS_H / 2), MAP_H - CANVAS_H);
 
+      // Player angle
+      const dx = mousePos.current.x + camera.current.x - playerRef.current.x;
+      const dy = mousePos.current.y + camera.current.y - playerRef.current.y;
+      playerRef.current.angle = Math.atan2(dy, dx);
+
       // Bullets
       bulletsRef.current.forEach((b) => b.update());
-      bulletsRef.current = bulletsRef.current.filter((b) => b.x > 0 && b.x < MAP_W && b.y > 0 && b.y < MAP_H);
+      bulletsRef.current = bulletsRef.current.filter(
+        (b) => b.x > 0 && b.x < MAP_W && b.y > 0 && b.y < MAP_H
+      );
 
       // Zombies
       zombiesRef.current.forEach((z) => z.update(playerRef.current));
@@ -166,6 +208,15 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       ammoLootRef.current = ammoLootRef.current.filter((loot) => {
         if (loot.isPicked(playerRef.current)) {
           setAmmo((a) => a + loot.amount);
+          return false;
+        }
+        return true;
+      });
+
+      // Medikits pickup
+      medikitsRef.current = medikitsRef.current.filter((med) => {
+        if (med.isPicked(playerRef.current)) {
+          playerRef.current.health = Math.min(100, playerRef.current.health + med.amount);
           return false;
         }
         return true;
@@ -192,15 +243,15 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       });
 
       // Draw entities
-      playerRef.current.draw(ctx, camera.current);
-      bulletsRef.current.forEach((b) => b.draw(ctx, camera.current));
       zombiesRef.current.forEach((z) => z.draw(ctx, camera.current));
+      bulletsRef.current.forEach((b) => b.draw(ctx, camera.current));
       ammoLootRef.current.forEach((a) => a.draw(ctx, camera.current));
+      medikitsRef.current.forEach((m) => m.draw(ctx, camera.current)); // draw medikits
+      playerRef.current.draw(ctx, camera.current);
 
-      // Always draw boundary on top
-      drawBoundary(ctx);
+      drawBoundary();
 
-      // Player death handling
+      // Player dead
       if (dead) {
         setRunning(false);
         setGameOver(true);
@@ -209,24 +260,11 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
         ctx.shadowBlur = 10;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
         ctx.fillText("GAME OVER", CANVAS_W / 2, CANVAS_H / 2);
         return;
       }
 
       requestRef.current = requestAnimationFrame(loop);
-    }
-
-    // Draw boundary as a separate function
-    function drawBoundary(ctx) {
-      ctx.save();
-      ctx.strokeStyle = "#00f";
-      ctx.lineWidth = 4;
-      ctx.shadowColor = "#00f";
-      ctx.shadowBlur = 16;
-      ctx.strokeRect(2, 2, CANVAS_W - 4, CANVAS_H - 4);
-      ctx.restore();
     }
 
     requestRef.current = requestAnimationFrame(loop);
@@ -236,10 +274,19 @@ export default function GameCanvas({ running, setRunning, setScore, setTimer, am
       clearInterval(timerIntRef.current);
       clearInterval(spawnIntRef.current);
       clearInterval(lootSpawnIntRef.current);
+      clearInterval(medikitSpawnIntRef.current);
       clearInterval(shootIntervalRef.current);
       isShooting.current = false;
     };
   }, [running, setRunning, setScore, setTimer, setAmmo, setGameOver]);
 
-  return <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} id="gameCanvas" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      width={CANVAS_W}
+      height={CANVAS_H}
+      id="gameCanvas"
+      style={{ cursor: "none" }}
+    />
+  );
 }
