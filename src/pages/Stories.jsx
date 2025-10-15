@@ -1,33 +1,46 @@
-//pages/Stories.js
-import React, { useState, useEffect, useRef } from "react"; 
-import '../App.css';
-import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { db } from "../firebase";
+// src/pages/Stories.js
+import React, { useState, useEffect, useRef } from "react";
+import "../App.css";
 
 export default function Stories({ onDataLoaded }) {
   const [stories, setStories] = useState([]);
 
   useEffect(() => {
-    async function fetchStories() {
-      try {
-        const q = query(collection(db, "stories"), orderBy("order", "asc"));
-        const querySnapshot = await getDocs(q);
-        const storiesData = querySnapshot.docs.map(doc => doc.data());
-        setStories(storiesData);
+    // ✅ Local dataset
+    const localData = [
+      {
+        title: "In The World of War",
+        cover: "ITWOW.jpg",
+        link: "https://writersaps.medium.com/a-day-he-woke-up-66010844f89e",
+        genre: "Sci-Fi",
+        synopsis:
+          "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
+      },
+      {
+        title: "As The Angel Wished",
+        cover: "ATAW.png",
+        link: "https://medium.com/@yourusername/whispers-in-the-dark-67890",
+        genre: "Fantasy",
+        synopsis: "The Angel gave him six. Could he give her the seventh?",
+      },
+      {
+        title: "Coming Soon",
+        cover: "/assets/stories/story3.jpg",
+        link: "https://medium.com/@yourusername/journey-beyond-abcde",
+        genre: "TBA",
+        synopsis: "TBA",
+      },
+    ];
 
-        if (onDataLoaded) onDataLoaded(); // signal App.js
-      } catch (error) {
-        console.error("Error fetching stories:", error);
-        if (onDataLoaded) onDataLoaded(); // still signal to prevent infinite loader
-      }
-    }
-
-    fetchStories();
+    // Set and notify parent
+    setStories(localData);
+    if (onDataLoaded) onDataLoaded();
   }, [onDataLoaded]);
 
   return (
     <div style={styles.container}>
       <h1 style={styles.title}>Short Stories</h1>
+
       <div style={styles.grid}>
         {stories.map((story, index) => (
           <StoryCard key={index} story={story} />
@@ -40,24 +53,26 @@ export default function Stories({ onDataLoaded }) {
 // --- StoryCard ---
 function StoryCard({ story }) {
   const [hover, setHover] = useState(false);
-  const timerRef = useRef(null);
+  const isTouchDevice = useRef(
+    "ontouchstart" in window || navigator.maxTouchPoints > 0
+  ).current;
 
-  const handleMouseEnter = () => setHover(true);
-  const handleMouseLeave = () => setHover(false);
-
-  const handleTouchStart = () => {
-    timerRef.current = setTimeout(() => setHover(true), 300);
+  const handleMouseEnter = () => {
+    if (!isTouchDevice) setHover(true);
   };
-  const handleTouchEnd = () => {
-    clearTimeout(timerRef.current);
-    setHover(false);
+
+  const handleMouseLeave = () => {
+    if (!isTouchDevice) setHover(false);
+  };
+
+  const handleTouchStart = (e) => {
+    e.preventDefault();
+    setHover((prev) => !prev);
   };
 
   return (
-    <a
-      href={story.link}
-      target="_blank"
-      rel="noopener noreferrer"
+    <div
+      className="story-card"
       style={{
         ...styles.card,
         transform: hover ? "scale(1.05)" : "scale(1)",
@@ -65,10 +80,16 @@ function StoryCard({ story }) {
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
+      onTouchStart={isTouchDevice ? handleTouchStart : undefined}
+      onContextMenu={(e) => e.preventDefault()}
     >
-      <img src={`${process.env.PUBLIC_URL}/${story.cover}`} alt={story.title} style={styles.image} />
+      <img
+        src={`${process.env.PUBLIC_URL}/${story.cover}`}
+        alt={story.title}
+        loading="lazy"
+        style={styles.image}
+      />
+
       <div
         className={`hover-info-animate${hover ? " active" : ""}`}
         style={styles.hoverInfo}
@@ -76,8 +97,19 @@ function StoryCard({ story }) {
         <h3 style={styles.storyTitle}>{story.title}</h3>
         <p style={styles.genre}>{story.genre}</p>
         <p style={styles.synopsis}>{story.synopsis}</p>
+
+        {hover && (
+          <a
+            href={story.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.readMore}
+          >
+            Read
+          </a>
+        )}
       </div>
-    </a>
+    </div>
   );
 }
 
@@ -98,7 +130,7 @@ const styles = {
   },
   grid: {
     display: "grid",
-    gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
+    gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
     gap: "20px",
     justifyItems: "center",
   },
@@ -108,11 +140,13 @@ const styles = {
     position: "relative",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
     cursor: "pointer",
+    width: "100%",
+    maxWidth: "220px",
   },
   image: {
-    width: "220px",
-    height: "320px",
-    objectFit: "cover",
+    width: "100%",
+    objectFit: "contain",
+    height: "auto",
     borderRadius: "10px",
     marginBottom: "10px",
     boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
@@ -127,10 +161,13 @@ const styles = {
     color: "#fff",
     padding: "10px",
     boxSizing: "border-box",
-    maxHeight: "50%",
+    maxHeight: "60%",
     overflow: "hidden",
     textAlign: "left",
     borderRadius: "0 0 10px 10px",
+    opacity: 0,
+    transform: "translateY(20px)",
+    transition: "all 0.3s ease",
   },
   storyTitle: {
     fontSize: "1rem",
@@ -146,5 +183,12 @@ const styles = {
     fontSize: "0.8rem",
     color: "#ddd",
     margin: 0,
+  },
+  readMore: {
+    display: "block",
+    color: "#1e90ff",
+    textDecoration: "underline",
+    marginTop: "10px",
+    textAlign: "center",
   },
 };

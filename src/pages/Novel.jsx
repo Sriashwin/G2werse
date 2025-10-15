@@ -83,19 +83,27 @@ export default function Novel() {
     </div>
   );
 }
+
 function NovelCard({ book }) {
   const [hover, setHover] = useState(false);
-  const timerRef = useRef(null);
+  const lastTapRef = useRef(0);
 
+  // Desktop hover
   const handleMouseEnter = () => setHover(true);
   const handleMouseLeave = () => setHover(false);
 
-  const handleTouchStart = () => {
-    timerRef.current = setTimeout(() => setHover(true), 300);
-  };
-  const handleTouchEnd = () => {
-    clearTimeout(timerRef.current);
-    setHover(false);
+  // Mobile tap-to-hover
+  const handleTouchStart = (e) => {
+    const now = Date.now();
+    const timeSince = now - lastTapRef.current;
+
+    if (timeSince < 300 && hover && !book.locked) {
+      e.preventDefault();
+      return;
+    }
+
+    lastTapRef.current = now;
+    setHover((prev) => !prev);
   };
 
   return (
@@ -108,26 +116,33 @@ function NovelCard({ book }) {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
     >
-      <Link to={book.locked ? "#" : book.link} style={styles.fullLink}>
-        <img src={`${process.env.PUBLIC_URL}/${book.image}`} alt="Book Cover" style={styles.novelImage} />
-      </Link>
+      <img
+        src={`${process.env.PUBLIC_URL}/${book.image}`}
+        alt="Book Cover"
+        style={styles.novelImage}
+        draggable="false"
+      />
 
       {book.locked && <div style={styles.lockedOverlay}>TBA</div>}
 
-      <div
-        className={`novel-hover-info${hover && !book.locked ? " active" : ""}`}
-        style={styles.hoverInfo}
-      >
-        <h3 style={styles.bookTitle}>{book.title}</h3>
-        <p style={styles.genre}>{book.genre}</p>
-        <p style={styles.synopsis}>{book.synopsis}</p>
-      </div>
+      {book.locked ? (
+        <div style={styles.lockedOverlay}>TBA</div>
+      ) : (
+        hover && (
+          <div style={styles.hoverInfo}>
+            <h3 style={styles.bookTitle}>{book.title}</h3>
+            <p style={styles.genre}>{book.genre}</p>
+            <p style={styles.synopsis}>{book.synopsis}</p>
+            <Link to={book.link} style={styles.readStoryLink}>
+              Explore
+            </Link>
+          </div>
+        )
+      )}
     </div>
   );
 }
-
 
 const styles = {
   container: {
@@ -162,6 +177,8 @@ const styles = {
     backgroundColor: "#111",
     cursor: "pointer",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
+    WebkitTapHighlightColor: "transparent",
+    userSelect: "none",
   },
   novelImage: {
     width: "100%",
@@ -195,11 +212,14 @@ const styles = {
     boxSizing: "border-box",
     zIndex: 4,
     textAlign: "left",
-    maxHeight: "50%",
+    maxHeight: "60%",
     overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
   bookTitle: {
-    fontSize: "0.90rem",
+    fontSize: "0.9rem",
     fontWeight: 500,
     margin: "0 0 5px 0",
   },
@@ -209,17 +229,18 @@ const styles = {
     margin: "0 0 5px 0",
   },
   synopsis: {
-    fontSize: "0.70rem",
+    fontSize: "0.7rem",
     color: "#ddd",
-    margin: 0,
+    margin: "0 0 8px 0",
   },
-  fullLink: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    textDecoration: "none",
-    zIndex: 1,
+  readStoryLink: {
+    color: "#1e90ff",
+    fontSize: "0.75rem",
+    // fontWeight: 600,
+    textAlign: "center",
+    textDecoration: "underline",
+    marginTop: "1px",
+    display: "inline-block",
+    alignSelf: "center",
   },
 };

@@ -108,11 +108,11 @@ const styles = {
     fontWeight: "600",
   },
   text: {
-    width: "60%",
+    width: "90%",
     textAlign: "justify",
     textAlignLast: "center",
     fontSize: "clamp(0.95rem, 2vw, 1.1rem)",
-    maxWidth: "750px",
+    maxWidth: "950px",
     margin: "0 auto",
     color: "#ddd",
   },

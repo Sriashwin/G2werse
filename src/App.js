@@ -1,6 +1,6 @@
-//App.js
+// src/App.js
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 // Pages
 import Home from "./pages/Home";
@@ -14,55 +14,63 @@ import Games from "./pages/Games";
 import Book1 from "./Novel/book1";
 
 function AppContent() {
-  const location = useLocation();
   const [fadeOut, setFadeOut] = useState(false);
+  const [showPreloader, setShowPreloader] = useState(true);
 
+  // ✅ Only run once on initial page load
   useEffect(() => {
-    setFadeOut(false);
-
     const video = document.getElementById("preloader-video");
 
     const handleEnded = () => {
       setFadeOut(true);
+      setTimeout(() => setShowPreloader(false), 500);
     };
 
     if (video) {
       video.currentTime = 0;
-      video.playbackRate = 3; // 3x speed
+      video.playbackRate = 3; // speed 3x
       video.play().catch(() => console.warn("Autoplay blocked"));
       video.addEventListener("ended", handleEnded);
     }
 
+    // Safety fallback in case video doesn't end properly
     const timeoutId = setTimeout(() => {
       setFadeOut(true);
-    }, 4000); // safety fallback
+      setTimeout(() => setShowPreloader(false), 500);
+    }, 4000);
 
     return () => {
       clearTimeout(timeoutId);
       if (video) video.removeEventListener("ended", handleEnded);
     };
-  }, [location]);
+  }, []); // 👈 runs only once (not on route change)
 
   return (
     <div style={{ position: "relative" }}>
-      {/* PRELOADER */}
-      <div className={`preloader ${fadeOut ? "fade-out" : "fade-in"}`}>
-        <video
-          id="preloader-video"
-          className="preloader-video"
-          src={`${process.env.PUBLIC_URL}/intro.mp4`}
-          autoPlay
-          preload="metadata" 
-          muted
-          playsInline
-        />
-      </div>
+      {/* PRELOADER (only shown once) */}
+      {showPreloader && (
+        <div className={`preloader ${fadeOut ? "fade-out" : "fade-in"}`}>
+          <video
+            id="preloader-video"
+            className="preloader-video"
+            src={`${process.env.PUBLIC_URL}/intro.mp4`}
+            autoPlay
+            preload="metadata"
+            muted
+            playsInline
+          />
+        </div>
+      )}
 
       {/* MAIN CONTENT */}
       <div style={{ ...styles.appContainer }}>
         {/* HERO SECTION */}
         <div style={styles.heroSection}>
-          <img src={`${process.env.PUBLIC_URL}/banner.jpg`} alt="A Rise of the War" style={styles.heroImage} />
+          <img
+            src={`${process.env.PUBLIC_URL}/banner.jpg`}
+            alt="A Rise of the War"
+            style={styles.heroImage}
+          />
           <div style={styles.heroOverlay}>
             <h1 style={styles.heroTitle}>G2WERSE</h1>
             <p style={styles.heroSubtitle}>

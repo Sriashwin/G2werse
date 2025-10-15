@@ -22,3 +22,15 @@
   transform: translateY(0);
   pointer-events: auto;
 }
+
+.hover-info-animate.active {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  pointer-events: auto !important; /* clickable when shown */
+}
+
+.story-card:hover .hover-info-animate {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}

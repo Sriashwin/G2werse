@@ -16,7 +16,7 @@ export default function Book1() {
         rel="noopener noreferrer"
     >
         <img
-        src="/AROTW.png"
+        src={`${process.env.PUBLIC_URL}/AROTW.png`}
         alt="A Rise Of The War - Cover"
         style={styles.coverImage}
         />

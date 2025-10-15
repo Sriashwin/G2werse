@@ -5,13 +5,30 @@ export default class Player {
     this.r = 18;
     this.speed = 4;
     this.angle = 0;
+    this.health = 100; // Player health
+  }
+
+  takeDamage(amount) {
+    this.health = Math.max(0, this.health - amount);
+  }
+
+  isDead() {
+    return this.health <= 0;
   }
 
   update(keys, maxW, maxH) {
-    if (keys["w"]) this.y -= this.speed;
-    if (keys["s"]) this.y += this.speed;
-    if (keys["a"]) this.x -= this.speed;
-    if (keys["d"]) this.x += this.speed;
+    let dx = 0, dy = 0;
+    if (keys["w"]) dy -= 1;
+    if (keys["s"]) dy += 1;
+    if (keys["a"]) dx -= 1;
+    if (keys["d"]) dx += 1;
+
+    if (dx !== 0 || dy !== 0) {
+      const len = Math.hypot(dx, dy);
+      this.x += (dx / len) * this.speed;
+      this.y += (dy / len) * this.speed;
+    }
+
     this.x = Math.max(this.r, Math.min(maxW - this.r, this.x));
     this.y = Math.max(this.r, Math.min(maxH - this.r, this.y));
   }
@@ -26,6 +43,13 @@ export default class Player {
     ctx.shadowColor = "#00f";
     ctx.shadowBlur = 14;
     ctx.fill();
+
+    // Draw health bar above player
+    ctx.fillStyle = "#f00";
+    ctx.fillRect(-this.r, -this.r - 10, (this.health / 100) * this.r * 2, 5);
+    ctx.strokeStyle = "#000";
+    ctx.strokeRect(-this.r, -this.r - 10, this.r * 2, 5);
+
     ctx.restore();
   }
 }

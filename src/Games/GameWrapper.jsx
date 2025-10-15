@@ -35,7 +35,7 @@ const GameWrapper = ({ children }) => {
           ⚠️ Mobile Detected!
         </h1>
         <p style={{ fontSize: "18px", marginBottom: "30px" }}>
-          This game is best played on a desktop/laptop to enjoy the full experience.
+          Use Laptop for better experience
         </p>
         <a
           href="/games"
