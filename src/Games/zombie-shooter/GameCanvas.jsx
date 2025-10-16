@@ -1,9 +1,10 @@
+// GameCanvas.jsx
 import React, { useRef, useEffect } from "react";
 import Player from "./Player";
 import Zombie from "./Zombie";
 import Bullet from "./Bullet";
 import Ammo from "./Ammo";
-import Medikit from "./Medikit"; // import Medikit
+import Medikit from "./Medikit";
 
 const CANVAS_W = 800;
 const CANVAS_H = 600;
@@ -25,7 +26,7 @@ export default function GameCanvas({
   const zombiesRef = useRef([]);
   const bulletsRef = useRef([]);
   const ammoLootRef = useRef([]);
-  const medikitsRef = useRef([]); // medikits array
+  const medikitsRef = useRef([]);
   const requestRef = useRef(null);
   const timerIntRef = useRef(null);
   const spawnIntRef = useRef(null);
@@ -36,6 +37,9 @@ export default function GameCanvas({
   const ammoRef = useRef(ammo);
   const camera = useRef({ x: 0, y: 0 });
   const mousePos = useRef({ x: CANVAS_W / 2, y: CANVAS_H / 2 });
+
+  // Track whether the player clicked Start
+  const startedRef = useRef(false);
 
   // Sync ammoRef
   useEffect(() => {
@@ -64,14 +68,13 @@ export default function GameCanvas({
       if (document.pointerLockElement === canvas) {
         mousePos.current.x += e.movementX;
         mousePos.current.y += e.movementY;
-
-        // Clamp inside canvas
         mousePos.current.x = Math.max(0, Math.min(CANVAS_W, mousePos.current.x));
         mousePos.current.y = Math.max(0, Math.min(CANVAS_H, mousePos.current.y));
       }
     };
 
     const shootBullet = () => {
+      if (!startedRef.current) return; // ← ammo doesn't reduce until start
       if (ammoRef.current > 0) {
         bulletsRef.current.push(
           new Bullet(playerRef.current.x, playerRef.current.y, playerRef.current.angle)
@@ -119,25 +122,10 @@ export default function GameCanvas({
     const ctx = canvasRef.current.getContext("2d");
     if (!ctx) return;
 
-    // Reset game state
-    if (running) {
-      setScore(0);
-      setTimer(60);
-      setAmmo(50);
-      zombiesRef.current = [];
-      bulletsRef.current = [];
-      ammoLootRef.current = [];
-      medikitsRef.current = [];
-      playerRef.current = new Player(MAP_W / 2, MAP_H / 2);
-      playerRef.current.health = 100;
-      setGameOver(false);
-      mousePos.current = { x: CANVAS_W / 2, y: CANVAS_H / 2 };
-    }
-
-    // Timer
+    // Timer counts up
     timerIntRef.current = setInterval(() => {
       if (!running) return;
-      setTimer((t) => (t <= 1 ? 0 : t - 1));
+      setTimer((t) => t + 1);
     }, 1000);
 
     // Spawn zombies
@@ -175,14 +163,30 @@ export default function GameCanvas({
       // Draw start message
       if (!running && !dead) {
         ctx.fillStyle = "#0ff";
-        ctx.font = "32px Arial";
+        ctx.font = "40px 'Arial', sans-serif";
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
         ctx.shadowBlur = 10;
-        ctx.fillText("Click Start to Play", CANVAS_W / 2, CANVAS_H / 2);
+        ctx.fillText("Press Start to Begin", CANVAS_W / 2, CANVAS_H / 2);
         drawBoundary();
         requestRef.current = requestAnimationFrame(loop);
         return;
+      }
+
+      // Reset game state on start
+      if (running && !startedRef.current) {
+        startedRef.current = true; // mark game as started
+        setAmmo(50);
+        setScore(0);
+        setTimer(0);
+        zombiesRef.current = [];
+        bulletsRef.current = [];
+        ammoLootRef.current = [];
+        medikitsRef.current = [];
+        playerRef.current = new Player(MAP_W / 2, MAP_H / 2);
+        playerRef.current.health = 100;
+        setGameOver(false);
+        mousePos.current = { x: CANVAS_W / 2, y: CANVAS_H / 2 };
       }
 
       // Player & camera
@@ -195,13 +199,13 @@ export default function GameCanvas({
       const dy = mousePos.current.y + camera.current.y - playerRef.current.y;
       playerRef.current.angle = Math.atan2(dy, dx);
 
-      // Bullets
+      // Update bullets
       bulletsRef.current.forEach((b) => b.update());
       bulletsRef.current = bulletsRef.current.filter(
         (b) => b.x > 0 && b.x < MAP_W && b.y > 0 && b.y < MAP_H
       );
 
-      // Zombies
+      // Update zombies
       zombiesRef.current.forEach((z) => z.update(playerRef.current));
 
       // Ammo pickup
@@ -246,7 +250,7 @@ export default function GameCanvas({
       zombiesRef.current.forEach((z) => z.draw(ctx, camera.current));
       bulletsRef.current.forEach((b) => b.draw(ctx, camera.current));
       ammoLootRef.current.forEach((a) => a.draw(ctx, camera.current));
-      medikitsRef.current.forEach((m) => m.draw(ctx, camera.current)); // draw medikits
+      medikitsRef.current.forEach((m) => m.draw(ctx, camera.current));
       playerRef.current.draw(ctx, camera.current);
 
       drawBoundary();
@@ -256,11 +260,11 @@ export default function GameCanvas({
         setRunning(false);
         setGameOver(true);
         ctx.fillStyle = "#0ff";
-        ctx.font = "32px Arial";
+        ctx.font = "40px 'Arial', sans-serif";
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
-        ctx.shadowBlur = 10;
-        ctx.fillText("GAME OVER", CANVAS_W / 2, CANVAS_H / 2);
+        ctx.shadowBlur = 25;
+        ctx.fillText("Game Over 💀", CANVAS_W / 2, CANVAS_H / 2);
         return;
       }
 
@@ -280,13 +284,5 @@ export default function GameCanvas({
     };
   }, [running, setRunning, setScore, setTimer, setAmmo, setGameOver]);
 
-  return (
-    <canvas
-      ref={canvasRef}
-      width={CANVAS_W}
-      height={CANVAS_H}
-      id="gameCanvas"
-      style={{ cursor: "none" }}
-    />
-  );
+  return <canvas ref={canvasRef} width={CANVAS_W} height={CANVAS_H} style={{ cursor: "none" }} />;
 }

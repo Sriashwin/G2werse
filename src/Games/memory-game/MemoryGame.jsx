@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import Tile from "./Tile";
 
 const MemoryGame = () => {
-  // ✅ Memoized emojis so they don't recreate every render
   const emojis = useMemo(
     () => [
       "🎹","🎶","📿","🧪","🧬","🪓","🔬","🔨","🎤","🧯",
@@ -17,9 +16,16 @@ const MemoryGame = () => {
   const [secondTile, setSecondTile] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const [matches, setMatches] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
   const totalMatches = emojis.length;
 
-  // ✅ Memoized initializer
+  const [startTime, setStartTime] = useState(null);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const [timerActive, setTimerActive] = useState(false);
+  const [highScore, setHighScore] = useState(
+    () => localStorage.getItem("memoryHighScore") || null
+  );
+
   const initializeTiles = useCallback(() => {
     let tilePairs = [];
     for (let i = 0; i < emojis.length; i++) {
@@ -32,17 +38,38 @@ const MemoryGame = () => {
     setFirstTile(null);
     setSecondTile(null);
     setDisabled(false);
+    setStartTime(null);
+    setElapsedTime(0);
+    setTimerActive(false);
+    setGameStarted(false);
   }, [emojis]);
+
+  const startGame = () => {
+    setTiles((prev) => prev.map((t) => ({ ...t, flipped: false, matched: false })));
+    setStartTime(Date.now());
+    setTimerActive(true);
+    setGameStarted(true);
+    setMatches(0);
+  };
 
   useEffect(() => {
     initializeTiles();
   }, [initializeTiles]);
 
-  const handleTileClick = (tile) => {
-    if (disabled) return;
-    if (tile.flipped || tile.matched) return;
+  useEffect(() => {
+    let interval;
+    if (timerActive) {
+      interval = setInterval(() => {
+        setElapsedTime(((Date.now() - startTime) / 1000).toFixed(1));
+      }, 100);
+    }
+    return () => clearInterval(interval);
+  }, [timerActive, startTime]);
 
-    const newTiles = tiles.map(t =>
+  const handleTileClick = (tile) => {
+    if (!gameStarted || disabled || tile.flipped || tile.matched) return;
+
+    const newTiles = tiles.map((t) =>
       t.id === tile.id ? { ...t, flipped: true } : t
     );
     setTiles(newTiles);
@@ -59,12 +86,12 @@ const MemoryGame = () => {
   const checkMatch = (tile) => {
     let newTiles = [...tiles];
     if (firstTile.value === tile.value) {
-      newTiles = newTiles.map(t =>
+      newTiles = newTiles.map((t) =>
         t.value === tile.value ? { ...t, matched: true } : t
       );
       setMatches((m) => m + 1);
     } else {
-      newTiles = newTiles.map(t =>
+      newTiles = newTiles.map((t) =>
         t.id === firstTile.id || t.id === tile.id ? { ...t, flipped: false } : t
       );
     }
@@ -74,39 +101,65 @@ const MemoryGame = () => {
     setDisabled(false);
   };
 
+  useEffect(() => {
+    if (matches === totalMatches && timerActive) {
+      setTimerActive(false);
+      const completionTime = parseFloat(elapsedTime);
+      const best = parseFloat(highScore);
+      if (!highScore || completionTime < best) {
+        localStorage.setItem("memoryHighScore", completionTime);
+        setHighScore(completionTime);
+      }
+    }
+  }, [matches, totalMatches, elapsedTime, timerActive, highScore]);
+
   return (
-    <div style={{ backgroundColor: "#000", minHeight: "100vh", color: "#00f", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
-        Quest for Past
-      </h1>
+    <div style={{
+      textAlign: "center",
+      color: "#00f",
+      fontFamily: "Arial, sans-serif",
+      backgroundColor: "#000",
+      minHeight: "100vh",
+      padding: "20px"
+    }}>
+      <h1 style={{textShadow: "0 0 12px #00f"}}>🧠 Quest for Past</h1>
 
       {matches === totalMatches ? (
-        <h2 style={{ textAlign: "center", color: "#0f0", marginTop: "20px" }}>
+        <div style={{
+          position: "absolute",
+          top: "20%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          color: "#0ff",
+          fontSize: "40px",
+          textAlign: "center",
+          textShadow: "0 0 10px #0ff"
+        }}>
           Memory Unlocked 🎉
-        </h2>
-      ) : (
-        <div style={{ color: "#0f0", textAlign: "center" }}>
-          Matches: {matches} / {totalMatches}
         </div>
+      ) : (
+        <h3 style={{ color: "#0f0", marginTop: "10px", textShadow: "0 0 10px #0f0" }}>
+          Matches: {matches} / {totalMatches} | Time: {elapsedTime}s | Best:{highScore && <> {highScore}s</>}
+        </h3>
       )}
 
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "center",
-          marginTop: "30px",
-        }}
-      >
+      <div style={{
+        display: "flex",
+        flexWrap: "wrap",
+        justifyContent: "center",
+        marginTop: "20px",
+        opacity: gameStarted ? 1 : 0.4,
+        pointerEvents: gameStarted ? "auto" : "none",
+        transition: "opacity 0.5s"
+      }}>
         {tiles.map((tile) => (
           <Tile key={tile.id} tile={tile} onClick={handleTileClick} />
         ))}
       </div>
 
-      <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <button
-          onClick={initializeTiles}
-          style={{
+      <div style={{ marginTop: "20px" }}>
+        {!gameStarted ? (
+          <button style={{
             padding: "10px 20px",
             fontSize: "16px",
             backgroundColor: "#00f",
@@ -114,12 +167,26 @@ const MemoryGame = () => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            marginTop: "10px",
             boxShadow: "0 0 10px #00f",
-          }}
-        >
-          Restart Game
-        </button>
+            fontWeight: "bold"
+          }} onClick={startGame}>
+            Start Game
+          </button>
+        ) : (
+          <button style={{
+            padding: "10px 20px",
+            fontSize: "16px",
+            backgroundColor: "#00f",
+            color: "#000",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer",
+            boxShadow: "0 0 10px #00f",
+            fontWeight: "bold"
+          }} onClick={initializeTiles}>
+            Restart Game
+          </button>
+        )}
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ export default class Player {
     // Draw health bar above player
     ctx.fillStyle = "#f00";
     ctx.fillRect(-this.r, -this.r - 10, (this.health / 100) * this.r * 2, 5);
-    ctx.strokeStyle = "#000";
+    ctx.strokeStyle = "#272727ff";
     ctx.strokeRect(-this.r, -this.r - 10, this.r * 2, 5);
 
     ctx.restore();

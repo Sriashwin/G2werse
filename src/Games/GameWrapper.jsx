@@ -37,8 +37,7 @@ const GameWrapper = ({ children }) => {
         <p style={{ fontSize: "18px", marginBottom: "30px" }}>
           Use Laptop for better experience
         </p>
-        <a
-          href="/games"
+        <a href={`${process.env.PUBLIC_URL}/games`}
           style={{
             textDecoration: "none",
             backgroundColor: "#1e90ff",
