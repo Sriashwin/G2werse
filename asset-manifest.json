@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/G2werse/static/css/main.cb9a4d99.css",
-    "main.js": "/G2werse/static/js/main.48173fc4.js",
+    "main.js": "/G2werse/static/js/main.18ea6913.js",
     "static/js/453.621d687a.chunk.js": "/G2werse/static/js/453.621d687a.chunk.js",
     "index.html": "/G2werse/index.html",
     "main.cb9a4d99.css.map": "/G2werse/static/css/main.cb9a4d99.css.map",
-    "main.48173fc4.js.map": "/G2werse/static/js/main.48173fc4.js.map",
+    "main.18ea6913.js.map": "/G2werse/static/js/main.18ea6913.js.map",
     "453.621d687a.chunk.js.map": "/G2werse/static/js/453.621d687a.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cb9a4d99.css",
-    "static/js/main.48173fc4.js"
+    "static/js/main.18ea6913.js"
   ]
 }
