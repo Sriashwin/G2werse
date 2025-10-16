@@ -1,6 +1,7 @@
 // src/App.js
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { imagesToPreload, preloadImages } from "./preloadImages";
 
 // Pages
 import Home from "./pages/Home";
@@ -16,6 +17,10 @@ import Book1 from "./Novel/book1";
 function AppContent() {
   const [fadeOut, setFadeOut] = useState(false);
   const [showPreloader, setShowPreloader] = useState(true);
+
+  useEffect(() => {
+    preloadImages(imagesToPreload);
+  }, []);
 
   // ✅ Only run once on initial page load
   useEffect(() => {
@@ -53,9 +58,9 @@ function AppContent() {
           <video
             id="preloader-video"
             className="preloader-video"
-            src={`${process.env.PUBLIC_URL}/intro.mp4`}
+            src={`${process.env.PUBLIC_URL}/assets/intro.webm`}
             autoPlay
-            preload="metadata"
+            preload="auto"
             muted
             playsInline
           />
@@ -67,7 +72,7 @@ function AppContent() {
         {/* HERO SECTION */}
         <div style={styles.heroSection}>
           <img
-            src={`${process.env.PUBLIC_URL}/banner.jpg`}
+            src={`${process.env.PUBLIC_URL}/assets/banner.jpg`}
             alt="A Rise of the War"
             style={styles.heroImage}
           />

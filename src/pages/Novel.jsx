@@ -130,7 +130,7 @@ function NovelCard({ book, navigate }) {
       onClick={handleClick}
     >
       <img
-        src={`${process.env.PUBLIC_URL}/${book.image}`}
+        src={`${process.env.PUBLIC_URL}/assets/${book.image}`}
         alt={book.title}
         style={styles.novelImage}
         draggable="false"

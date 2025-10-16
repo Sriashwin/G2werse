@@ -12,8 +12,7 @@ export default function Stories({ onDataLoaded }) {
         cover: "ITWOW.jpg",
         link: "https://writersaps.medium.com/a-day-he-woke-up-66010844f89e",
         genre: "Sci-Fi",
-        synopsis:
-          "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
+        synopsis: "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
       },
       {
         title: "As The Angel Wished",
@@ -101,7 +100,7 @@ function StoryCard({ story }) {
       onClick={handleClick}
     >
       <img
-        src={`${process.env.PUBLIC_URL}/${story.cover}`}
+        src={`${process.env.PUBLIC_URL}/assets/${story.cover}`}
         alt={story.title}
         loading="lazy"
         style={styles.image}
