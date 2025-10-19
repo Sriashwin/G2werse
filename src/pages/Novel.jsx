@@ -6,7 +6,7 @@ export default function Novel() {
 
   const novels = [
     {
-      image: "book1.png",
+      image: "book1.webp",
       locked: false,
       link: "/novel/book1",
       title: "A Rise Of The War",

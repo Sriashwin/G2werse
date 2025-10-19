@@ -72,7 +72,7 @@ function AppContent() {
         {/* HERO SECTION */}
         <div style={styles.heroSection}>
           <img
-            src={`${process.env.PUBLIC_URL}/assets/banner.jpg`}
+            src={`${process.env.PUBLIC_URL}/assets/banner.webp`}
             alt="A Rise of the War"
             style={styles.heroImage}
           />

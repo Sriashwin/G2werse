@@ -9,14 +9,14 @@ export default function Stories({ onDataLoaded }) {
     const localData = [
       {
         title: "In The World of War",
-        cover: "ITWOW.jpg",
+        cover: "ITWOW.webp",
         link: "https://writersaps.medium.com/a-day-he-woke-up-66010844f89e",
         genre: "Sci-Fi",
         synopsis: "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
       },
       {
         title: "As The Angel Wished",
-        cover: "ATAW.png",
+        cover: "ATAW.webp",
         link: "https://medium.com/@yourusername/whispers-in-the-dark-67890",
         genre: "Fantasy",
         synopsis: "The Angel gave him six. Could he give her the seventh?",

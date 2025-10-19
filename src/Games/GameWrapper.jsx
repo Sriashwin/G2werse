@@ -1,6 +1,5 @@
 // src/Games/GameWrapper.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 
 const GameWrapper = ({ children }) => {
   const [isMobile, setIsMobile] = useState(false);
@@ -38,7 +37,7 @@ const GameWrapper = ({ children }) => {
         <p style={{ fontSize: "18px", marginBottom: "30px" }}>
           Use Laptop for better experience
         </p>
-        <Link href={`${process.env.PUBLIC_URL}/games`}
+        <a href={`${process.env.PUBLIC_URL}/games`}
           style={{
             textDecoration: "none",
             backgroundColor: "#1e90ff",
@@ -60,7 +59,7 @@ const GameWrapper = ({ children }) => {
           }}
         >
           Go Back
-        </Link>
+        </a>
       </div>
     );
   }

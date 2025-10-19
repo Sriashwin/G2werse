@@ -1,6 +1,6 @@
 // src/Novel/book1.jsx
 import React from "react";
-const trailerLink = "https://youtu.be/FTI6dncKWdE?si=U-EwfJ8Tocf9wA1w";
+const trailerLink = "https://youtu.be/idWl77Ag_YI?si=VnGZQLkbrqddtqMq";
 
 export default function Book1() {
   return (
@@ -16,22 +16,30 @@ export default function Book1() {
         rel="noopener noreferrer"
     >
         <img
-        src={`${process.env.PUBLIC_URL}/assets/AROTW.png`}
+        src={`${process.env.PUBLIC_URL}/assets/AROTW.webp`}
         alt="A Rise Of The War - Cover"
         style={styles.coverImage}
         />
     </a>
     </div>
 
-      {/* Synopsis */}
+      {/* Blurb */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>Blurb</h2>
         <p style={styles.text}>
           Black and blue crystals shone, sparkles striking each other in rhythmic beats like a thought—fragile yet powerful enough to change the world. Some gave rise to civilizations, while others gave rise to war and turned them to dust. Once born, they were nearly impossible to eradicate. It was from a bracelet hanging near the dressing table's mirror. The bracelet gleamed as though it had captured such a thought from his brain, or maybe it would remember the shattering moment which held their last meet. He was never meant to remember. But the world won't let him forget.
-          <br /><br />
+          <br />
           For nine years, he thought that the child he grew would be a ray of hope and revive him, only for everything to shatter right after. The REX Unleashed.
-          <br /><br />
-          Later, in the world of burning cities and ever-evolving threats, scientists were racing, trying to find a cure. Some truths, however, are sealed for a reason—like the past—is now clawing its way back. With every answer comes a price, causing the balance of the decaying world to tilt dangerously close to a complete collapse.
+          <br />
+          Later, in the world of burning cities and ever-evolving threats, scientists were on track, trying to find a cure. Some truths, however, are sealed for a reason—like the past—is now clawing its way back. With every answer comes a price, causing the balance of the decaying world to tilt dangerously close to a complete collapse.
+        </p>
+      </div>
+
+      {/* Synopsis */}
+      <div style={styles.section}>
+        <h2 style={styles.sectionTitle}>Synopsis</h2>
+        <p style={styles.text}>
+          Our broken hero reached his lowest point. Right then the world fell. The day of judgement isn't too far. Scientists were rushing to find a cure. Soldiers were dying to save civilians. But the one who can save them all is now fighting to save his son. Will he find his greatest purpose?
         </p>
       </div>
 
@@ -42,6 +50,7 @@ export default function Book1() {
           We fight for control to protect what we love. But sometimes, that fight becomes the very chaos we feared.
         </p>
       </div>
+
       {/* Virus Analysis */}
       <div style={styles.section}>
         <h2 style={styles.sectionTitle}>Virus Analysis</h2>
@@ -67,8 +76,19 @@ export default function Book1() {
         <h2 style={styles.sectionTitle}>Iconic Dialogues</h2>
         <ul style={styles.dialogues}>
           <li>"A God who can change everything is now wishing for a change."</li>
-          <li>"If I have to repeat the same, then it would never be a word again. You know them."</li>
+          <li>"If I have to repeat the same, then it would never be a word again. You know what."</li>
         </ul>
+      </div>
+
+      {/* Prophecy */}
+      <div style={styles.section}>
+        <h3 style={styles.sectionTitle}>Prophecy</h3>
+        <p style={styles.text}>
+          "A spark in ash, with sun in chest,<br/>
+          The one shall rise, the son of blest.<br/>
+          As shut the sun by the one for rest<br/>
+          The dark, the dead crown the crest"<br/>
+        </p>
       </div>
 
       {/* Hollow Flame Conspiracy */}
@@ -76,7 +96,7 @@ export default function Book1() {
         <h3 style={styles.sectionTitle}>Hollow Flame<br/>27 Feb 2024 | Tamil Nadu, India</h3>
         <p style={styles.text}>
           Several students died in a fire incident at a private school in Tamil Nadu on February 27. The incident was reported by authorities as a cause of an electrical short-circuit, termed a tragic accident. 
-          <br /><br />
+          <br />
           However, witness accounts tell a more terrifying tale. Some residents report blood stains and signs of a struggle inconsistent with a normal fire. Online posts about the incident are being deleted, and rumors circulate about a diary titled "Lies" belonging to one of the victims, possibly containing the truth.
         </p>
       </div>
@@ -119,6 +139,7 @@ const styles = {
     paddingBottom: "4px",
   },
   text: {
+    textAlign: "justify",
     fontSize: "1rem",
     color: "#ddd",
     whiteSpace: "pre-line",
@@ -134,7 +155,7 @@ const styles = {
     color: "#ddd",
   },
   dialogues: {
-    listStyleType: "circle",
+    listStyleType: "disc",
     paddingLeft: "20px",
     color: "#ddd",
   },
