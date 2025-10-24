@@ -1,7 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta http-equiv="refresh" content="0; URL=/G2werse/" />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page Not Found</title>
+    <script type="text/javascript">
+      // Redirect all 404 requests to index.html so React Router can handle it
+      var path = window.location.pathname;
+      var newPath = "/G2werse" + path.substring("/G2werse".length);
+      sessionStorage.redirect = newPath;
+      window.location.replace("/G2werse/");
+    </script>
   </head>
-  <body></body>
+  <body>
+    <h2>Redirecting...</h2>
+  </body>
 </html>
