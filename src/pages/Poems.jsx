@@ -18,7 +18,7 @@ export default function Poems() {
   // Load main poems
   useEffect(() => {
     const file = language === "English" ? "english.json" : "tamil.json";
-    fetch(`${process.env.PUBLIC_URL}/${file}`)
+    fetch(`${process.env.PUBLIC_URL}/json/${file}`)
       .then((res) => res.json())
       .then((data) => setPoems(data))
       .catch((err) => console.error("Error loading poems:", err));
@@ -26,7 +26,7 @@ export default function Poems() {
 
   // Load other poems
   useEffect(() => {
-    fetch(`${process.env.PUBLIC_URL}/others.json`)
+    fetch(`${process.env.PUBLIC_URL}/json/others.json`)
       .then((res) => res.json())
       .then((data) => setOtherPoems(data))
       .catch((err) => console.error("Error loading other poems:", err));
