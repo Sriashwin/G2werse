@@ -1,10 +1,10 @@
 // src/preloadImages.js
 export const imagesToPreload = [
-  "/assets/AROTW.webp",
-  "/assets/ATAW.webp",
-  "/assets/banner.webp",
-  "/assets/book1.webp",
-  "/assets/ITWOW.webp"
+  `${process.env.PUBLIC_URL}/assets/AROTW.webp`,
+  `${process.env.PUBLIC_URL}/assets/ATAW.webp`,
+  `${process.env.PUBLIC_URL}/assets/banner.webp`,
+  `${process.env.PUBLIC_URL}/assets/book1.webp`,
+  `${process.env.PUBLIC_URL}/assets/ITWOW.webp`
 ];
 
 export function preloadImages(urls) {
