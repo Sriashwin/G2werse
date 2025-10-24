@@ -103,7 +103,6 @@ function StoryCard({ story }) {
       <img
         src={`${process.env.PUBLIC_URL}/assets/${story.cover}`}
         alt={story.title}
-        loading="lazy"
         style={styles.image}
       />
 
