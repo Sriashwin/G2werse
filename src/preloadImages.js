@@ -1,10 +1,10 @@
 // src/preloadImages.js
 export const imagesToPreload = [
-  "/assets/AROTW.png",
-  "/assets/ATAW.png",
-  "/assets/banner.jpg",
-  "/assets/book1.png",
-  "/assets/ITWOW.jpg"
+  "/assets/AROTW.webp",
+  "/assets/ATAW.webp",
+  "/assets/banner.webp",
+  "/assets/book1.webp",
+  "/assets/ITWOW.webp"
 ];
 
 export function preloadImages(urls) {

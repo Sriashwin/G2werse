@@ -3,7 +3,7 @@ import { Instagram, PenTool, Youtube } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
-  const [photoHovered, setPhotoHovered] = useState(false);
+  // const [photoHovered, setPhotoHovered] = useState(false);        --->add it later
   const links = [
     {
       name: "Instagram",
@@ -41,7 +41,7 @@ export default function Home() {
         <h2 style={styles.sectionTitle}>About Me</h2>
         {/* Author Photo */}
         <div style={styles.photoWrapper}>
-          <img
+          {/* <img
             src={`${process.env.PUBLIC_URL}/assets/me.webp`}
             alt="Sriashwin S"
             style={{
@@ -52,7 +52,7 @@ export default function Home() {
             }}
             onMouseEnter={() => setPhotoHovered(true)}
             onMouseLeave={() => setPhotoHovered(false)}
-          />
+          /> */}
         </div>
         <br/>
         <p style={styles.text}>
@@ -100,7 +100,7 @@ export default function Home() {
 
 const styles = {
   container: {
-    backgroundColor: "#000",
+    backgroundColor: "transparent",
     color: "#ddd",
     fontFamily: "'Poppins', sans-serif",
     lineHeight: 1.6,

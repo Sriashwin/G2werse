@@ -7,7 +7,7 @@ export default function Novel() {
   const novels = [
     {
       image: "book1.webp",
-      locked: false,
+      locked: true,
       link: "/novel/book1",
       title: "A Rise Of The War",
       genre: "Psychological | Sci-fi Thriller",

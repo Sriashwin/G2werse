@@ -12,7 +12,8 @@ export default function Stories({ onDataLoaded }) {
         cover: "ITWOW.webp",
         link: "https://writersaps.medium.com/a-day-he-woke-up-66010844f89e",
         genre: "Sci-Fi",
-        synopsis: "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
+        synopsis:
+          "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
       },
       {
         title: "As The Angel Wished",
@@ -68,24 +69,24 @@ function StoryCard({ story }) {
 
   const handleMouseLeave = () => {
     if (!isTouchDevice) setHover(false);
-    setTapped(false); // reset mobile tap state too, in case window resized
+    setTapped(false);
   };
 
   // Click / Tap
   const handleClick = (e) => {
     if (isTouchDevice) {
-      e.preventDefault(); // stop immediate link open
+      e.preventDefault();
       if (!tapped) {
-        setTapped(true); // first tap: show description
+        setTapped(true);
       } else {
-        window.open(story.link, "_blank"); // second tap: open link
+        window.open(story.link, "_blank");
       }
     } else {
-      window.open(story.link, "_blank"); // desktop: click always opens
+      window.open(story.link, "_blank");
     }
   };
 
-  const showInfo = isTouchDevice ? tapped : hover; // conditional for rendering info
+  const showInfo = isTouchDevice ? tapped : hover;
 
   return (
     <div
@@ -108,9 +109,12 @@ function StoryCard({ story }) {
 
       {showInfo && (
         <div style={styles.hoverInfo}>
-          <h3 style={styles.storyTitle}>{story.title}</h3>
-          <p style={styles.genre}>{story.genre}</p>
-          <p style={styles.synopsis}>{story.synopsis}</p>
+          <div style={styles.hoverInfoBackground}></div>
+          <div style={styles.hoverInfoText}>
+            <h3 style={styles.storyTitle}>{story.title}</h3>
+            <p style={styles.genre}>{story.genre}</p>
+            <p style={styles.synopsis}>{story.synopsis}</p>
+          </div>
         </div>
       )}
     </div>
@@ -161,14 +165,30 @@ const styles = {
     bottom: 0,
     left: 0,
     width: "100%",
-    background: "rgba(0,0,0,0.85)",
+    maxHeight: "60%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-end",
+    textAlign: "left",
+    pointerEvents: "none",
+    overflow: "visible",
+  },
+  hoverInfoBackground: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    background:
+      "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%)",
+    borderRadius: "0 0 10px 10px",
+    zIndex: 0,
+  },
+  hoverInfoText: {
+    position: "relative",
+    zIndex: 1,
     color: "#fff",
     padding: "10px",
-    boxSizing: "border-box",
-    maxHeight: "60%",
-    overflow: "hidden",
-    textAlign: "left",
-    borderRadius: "0 0 10px 10px",
   },
   storyTitle: {
     fontSize: "1rem",

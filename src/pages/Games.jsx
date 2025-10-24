@@ -44,7 +44,7 @@ export default function Games() {
 
 const styles = {
   container: {
-    backgroundColor: "#000",
+    backgroundColor: "transparent",
     color: "#ddd",
     minHeight: "100vh",
     padding: "40px 20px",
