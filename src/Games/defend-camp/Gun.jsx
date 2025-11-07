@@ -7,7 +7,7 @@ const Gun = ({ x, y }) => {
         position: "absolute",
         width: "30px",
         height: "30px",
-        backgroundColor: "#00f",
+        backgroundColor: "#1e90ff",
         left: x,
         top: y,
         borderRadius: "50%",

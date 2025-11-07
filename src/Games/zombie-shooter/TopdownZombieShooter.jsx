@@ -33,16 +33,16 @@ export default function TopdownZombieShooter() {
   }, [gameOver, timer, highScore]);
 
   return (
-    <div style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
+    <div style={{ textAlign: "center",  color: "#1e90ff", fontFamily: "'Times New Roman', serif" }}>
       {/* Title */}
-      <h1 style={{ textShadow: "0 0 12px #00f" }}>💥 Zombie Shooter</h1>
+      <h1 style={{ textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)", }}>💥 Zombie Shooter</h1>
 
       {/* Game stats */}
       <div style={{ marginBottom: "10px", textShadow: "0 0 10px #0f0" }}>
         <h3>
-          <span style={{ color: "#0f0", marginLeft: 12 }}>Score: {score}</span>
-          <span style={{ color: "#0f0", marginLeft: 12 }}>Time: {timer}s</span>
-          <span style={{ color: "#0f0", marginLeft: 12 }}>Ammo: {ammo}</span>
+          <span style={{ color: "#0f0", marginLeft: 12 }}>Score: {score} |</span>
+          <span style={{ color: "#0f0", marginLeft: 12 }}>Time: {timer}s |</span>
+          <span style={{ color: "#0f0", marginLeft: 12 }}>Ammo: {ammo} |</span>
           <span style={{ color: "#0f0", marginLeft: 12 }}>Survival: {highScore}s</span>
         </h3>
       </div>
@@ -55,10 +55,9 @@ export default function TopdownZombieShooter() {
           height: 600,
           margin: "0 auto 20px auto",
           backgroundColor: "#000",
-          border: "3px solid #00f",
+          border: "1px #1e90ff",
           borderRadius: "10px",
           overflow: "hidden",
-          boxShadow: "0 0 20px #00f",
           position: "relative",
         }}
       >
@@ -104,6 +103,7 @@ export default function TopdownZombieShooter() {
         style={{
           marginTop: "20px",
           padding: "10px 20px",
+          fontFamily: "'Times New Roman', serif",
           backgroundColor: "#00f",
           color: "#000",
           border: "none",
@@ -117,7 +117,7 @@ export default function TopdownZombieShooter() {
       </button>
 
       {/* Controls */}
-      <div style={{ marginTop: "10px", color: "#0ff", textShadow: "0 0 5px #0ff", fontSize: "16px" }}>
+      <div style={{ marginTop: "10px", color: "#aaa", fontSize: "16px" }}>
         WASD: Move &nbsp; Mouse: Aim & Shoot
       </div>
     </div>

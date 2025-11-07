@@ -147,8 +147,8 @@ export default function BoysRun() {
   const restartGame = () => startGame();
 
   return (
-    <div style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ textShadow: "0 0 12px #00f" }}>🏃🏻‍➡️ Boys Run</h1>
+    <div style={{ textAlign: "center", color: "#1e90ff", fontFamily: "'Times New Roman', serif" }}>
+      <h1 style={{ textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)" }}>🏃🏻‍➡️ Boys Run</h1>
       <h3 style={{ color: "#0f0", textShadow: "0 0 10px #0f0" }}>
         Score: {score} | Power: {collected} | Distance: {highScore}ft
       </h3>
@@ -159,7 +159,7 @@ export default function BoysRun() {
         height: gameHeight,
         margin: "0 auto 20px auto",
         backgroundColor: "#000",
-        border: "3px solid #00f",
+        border: "3px solid #1e90ff",
         borderRadius: "10px",
         overflow: "hidden"
       }}>
@@ -173,8 +173,8 @@ export default function BoysRun() {
           fontSize: "40px",
           textAlign: "center",
           lineHeight: `${playerSize}px`,
-          color: "#00f",
-          textShadow: "0 0 10px #00f"
+          color: "#1e90ff",
+          textShadow: "0 0 10px #1e90ff"
         }}>
           🏃🏻‍➡️
         </div>
@@ -253,6 +253,7 @@ export default function BoysRun() {
         {!gameStarted && !gameOver ? (
           <button onClick={startGame} style={{
             marginTop: "20px",
+            fontFamily: "'Times New Roman', serif",
             padding: "10px 20px",
             backgroundColor: "#00f",
             color: "#000",
@@ -265,6 +266,7 @@ export default function BoysRun() {
         ) : (
           <button onClick={restartGame} style={{
             marginTop: "20px",
+            fontFamily: "'Times New Roman', serif",
             padding: "10px 20px",
             backgroundColor: "#00f",
             color: "#000",

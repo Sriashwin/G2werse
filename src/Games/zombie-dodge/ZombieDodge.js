@@ -149,10 +149,10 @@ export default function ZombieDodge() {
   };
 
   return (
-    <div style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ textShadow: "0 0 12px #00f" }}>🧟‍♂️ Zombie Dodge</h1>
+    <div style={{ textAlign: "center", color: "#1e90ff", fontFamily: "'Times New Roman', serif" }}>
+      <h1 style={{ textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)", }}>🧟‍♂️ Zombie Dodge</h1>
       <h3 style={{ color: "#0f0", textShadow: "0 0 10px #0f0" }}>
-        Score: {score} | Time Left: {timeLeft}s | Highest Loot: {highScore}
+        Score: {score} | Time Left: {timeLeft}s | Assets: {highScore}
       </h3>
 
       <div style={{
@@ -161,7 +161,7 @@ export default function ZombieDodge() {
         height: GAME_HEIGHT,
         margin: "0 auto 20px auto",
         backgroundColor: "#000",
-        border: "3px solid #00f",
+        border: "3px solid #1e90ff",
         borderRadius: "10px",
         overflow: "hidden"
       }}>
@@ -187,6 +187,7 @@ export default function ZombieDodge() {
         style={{
           padding: "12px 28px",
           fontSize: "16px",
+          fontFamily: "'Times New Roman', serif",
           backgroundColor: "#00f",
           color: "#000",
           border: "none",

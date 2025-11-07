@@ -4,7 +4,8 @@ export const imagesToPreload = [
   `${process.env.PUBLIC_URL}/assets/ATAW.webp`,
   `${process.env.PUBLIC_URL}/assets/banner.webp`,
   `${process.env.PUBLIC_URL}/assets/book1.webp`,
-  `${process.env.PUBLIC_URL}/assets/ITWOW.webp`
+  `${process.env.PUBLIC_URL}/assets/ITWOW.webp`,
+  `${process.env.PUBLIC_URL}/assets/AEML.webp`
 ];
 
 export function preloadImages(urls) {

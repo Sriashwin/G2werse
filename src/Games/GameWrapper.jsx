@@ -21,8 +21,8 @@ const GameWrapper = ({ children }) => {
           alignItems: "center",
           minHeight: "80vh",
           textAlign: "center",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          color: "#00f",
+          fontFamily: "'Times New Roman', sans-serif",
+          color: "#1e90ff",
           backgroundColor: "#000",
           padding: "20px",
           borderRadius: "15px",
@@ -31,10 +31,10 @@ const GameWrapper = ({ children }) => {
           maxWidth: "600px",
         }}
       >
-        <h1 style={{ color: "#ff4500", fontSize: "32px", marginBottom: "20px" }}>
+        <h1 style={{ color: "#ff4d4d", textShadow: "0 0 10px rgba(255, 0, 0, 0.7), 0 10px 20px rgba(0,0,0,0.8)", fontSize: "32px", marginBottom: "20px" }}>
           ⚠️ Mobile Detected!
         </h1>
-        <p style={{ fontSize: "18px", marginBottom: "30px" }}>
+        <p style={{ fontSize: "18px", textShadow: "0 0 5px rgba(30, 143, 255, 0.75), 0 10px 20px rgba(0,0,0,0.8)", marginBottom: "30px" }}>
           Use Laptop for better experience
         </p>
         <a href={`${process.env.PUBLIC_URL}/games`}
@@ -45,7 +45,6 @@ const GameWrapper = ({ children }) => {
             padding: "12px 25px",
             borderRadius: "8px",
             fontSize: "16px",
-            fontWeight: "bold",
             boxShadow: "0 0 10px #00f",
             transition: "all 0.3s ease",
           }}

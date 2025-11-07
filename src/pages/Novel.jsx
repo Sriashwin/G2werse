@@ -7,7 +7,7 @@ export default function Novel() {
   const novels = [
     {
       image: "book1.webp",
-      locked: true,
+      locked: false,
       link: "/novel/book1",
       title: "A Rise Of The War",
       genre: "Psychological | Sci-fi Thriller",
@@ -153,7 +153,7 @@ const styles = {
   container: {
     backgroundColor: "transparent",
     color: "#ddd",
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Times New Roman', serif",
     lineHeight: 1.6,
     padding: "40px 20px",
     minHeight: "100vh",
@@ -161,6 +161,7 @@ const styles = {
   },
   pageTitle: {
     color: "#1e90ff",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
     fontWeight: "700",
     marginBottom: "40px",
@@ -178,7 +179,7 @@ const styles = {
     height: "270px",
     borderRadius: "15px",
     overflow: "hidden",
-    boxShadow: "0 0 15px rgba(0,0,0,0.5)",
+    boxShadow: "0 0 5px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     backgroundColor: "#111",
     cursor: "pointer",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
@@ -199,6 +200,7 @@ const styles = {
     height: "100%",
     background: "rgba(0,0,0,0.7)",
     color: "#ff4d4d",
+    textShadow: "0 0 10px rgba(255, 0, 0, 0.97), 0 10px 20px rgba(0,0,0,0.8)",
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -211,7 +213,8 @@ const styles = {
     bottom: 0,
     left: 0,
     width: "100%",
-    background: "rgba(0,0,0,0.85)",
+    background:
+      "linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 80%, rgba(0,0,0,0) 100%)",
     color: "#fff",
     padding: "10px",
     boxSizing: "border-box",
@@ -229,12 +232,12 @@ const styles = {
     margin: "0 0 5px 0",
   },
   genre: {
-    fontSize: "0.75rem",
+    fontSize: "0.65rem",
     color: "#1e90ff",
     margin: "0 0 5px 0",
   },
   synopsis: {
-    fontSize: "0.7rem",
+    fontSize: "0.65rem",
     color: "#ddd",
     margin: "0 0 8px 0",
   },

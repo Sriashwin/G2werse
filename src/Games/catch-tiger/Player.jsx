@@ -6,7 +6,7 @@ function Player({ position }) {
       position: "absolute",
       width: "50px",
       height: "50px",
-      backgroundColor: "#00f",
+      backgroundColor: "#1e90ff",
       borderRadius: "10px",
       top: position.y,
       left: position.x,

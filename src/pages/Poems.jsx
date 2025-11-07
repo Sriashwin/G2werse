@@ -152,8 +152,8 @@ export default function Poems() {
 
           {/* Inactive labels behind */}
           <div style={styles.toggleLabels}>
-            <span style={{ color: language === "English" ? "#aaa" : "#fff" }}>English</span>
-            <span style={{ color: language === "Tamil" ? "#aaa" : "#fff" }}>Tamil</span>
+            <span style={{ color: language === "English" ? "#ffffffff" : "#ffffffff" }}>English</span>
+            <span style={{ color: language === "Tamil" ? "#ffffffff" : "#ffffffff" }}>Tamil</span>
           </div>
         </div>
       </div>
@@ -164,7 +164,7 @@ export default function Poems() {
       {/* Other Poems Slider */}
       {otherPoems.length > 0 && (
         <>
-          <h2 style={{ color: "#1e90ff", marginTop: "50px" }}>Other Themes</h2>
+          <h2 style={{ color: "#1e90ff", textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)", marginTop: "50px" }}>Other Themes</h2>
           {renderSlider(otherPoems, activeIndexOther, true)}
         </>
       )}
@@ -275,7 +275,7 @@ const styles = {
   container: {
     backgroundColor: "transparent",
     color: "#ddd",
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Times New Roman', serif",
     lineHeight: 1.6,
     padding: "40px 20px",
     minHeight: "100vh",
@@ -286,6 +286,7 @@ const styles = {
     fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
     fontWeight: "700",
     marginBottom: "20px",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
   },
   languageSelector: {
     marginBottom: "30px",
@@ -301,7 +302,8 @@ const styles = {
     cursor: "pointer",
     display: "flex",
     alignItems: "center",
-    backgroundColor: "#111",
+    backgroundImage: "linear-gradient(to bottom right, #01203dff, #011120ff)",
+    boxShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     padding: "2px",
     userSelect: "none",
   },
@@ -314,8 +316,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#1e90ff",
-    color: "#fff",
+    backgroundImage: "linear-gradient(to top left, #052747ff, #003261ff)",
+    color: "#1e90ff",
     fontWeight: 600,
     transition: "left 0.3s ease",
     zIndex: 2,
@@ -335,8 +337,8 @@ const styles = {
     height: "100%",
     borderRadius: "25px",
     overflow: "hidden",
-    boxShadow: "0 0 15px rgba(0,0,0,0.5)",
-    backgroundColor: "#0d022aff",
+    boxShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+    backgroundImage: "linear-gradient(to bottom right, #001931ff, #000000)",
     cursor: "pointer",
     padding: "16px",
     boxSizing: "border-box",
@@ -360,6 +362,7 @@ const styles = {
     fontSize: "1rem",
     fontWeight: 600,
     color: "#1e90ff",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     lineHeight: 1.2,
     wordBreak: "break-word",
   },
@@ -410,7 +413,7 @@ const sliderStyles = {
     position: "relative",
     width: "100%",
     maxWidth: "1000px",
-    minHeight: "300px",
+    minHeight: "350px",
   },
   btn: {
     background: "transparent",

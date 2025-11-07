@@ -39,7 +39,7 @@ export default class Player {
 
     // Draw gun line first
     const gunLength = this.r + 15; // length of gun
-    ctx.strokeStyle = "#000"; // gun color
+    ctx.strokeStyle = "#8c6f6fff"; // gun color
     ctx.lineWidth = 3;
     ctx.beginPath();
     ctx.moveTo(0, 0);
@@ -51,7 +51,7 @@ export default class Player {
     ctx.rotate(this.angle);
     ctx.beginPath();
     ctx.arc(0, 0, this.r, 0, 2 * Math.PI);
-    ctx.fillStyle = "#00f";
+    ctx.fillStyle = "#1e90ff";
     ctx.shadowColor = "#00f";
     ctx.shadowBlur = 14;
     ctx.fill();

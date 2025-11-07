@@ -27,11 +27,11 @@ export default function Home() {
       {/* Hero Section */}
       <section style={styles.hero}>
         <h1 style={styles.title}>Gate To War</h1>
+        <h2 style={styles.subtitleHero}>
+          <b>Greatest Awakening Towards Evolution To War Against Reality</b>
+        </h2>
         <h3 style={styles.subtitleHero}>
-          Greatest Awakening Towards Evolution To War Against Reality
-        </h3>
-        <h3 style={styles.subtitleHero}>
-          SRIASHWIN S
+          <b>SRIASHWIN S</b>
         </h3>
         <p style={styles.subtitle}>Author | Storyteller | Poet</p>
       </section>
@@ -102,7 +102,7 @@ const styles = {
   container: {
     backgroundColor: "transparent",
     color: "#ddd",
-    fontFamily: "'Poppins', sans-serif",
+    fontFamily: "'Times New Roman', serif",
     lineHeight: 1.6,
     padding: "40px 20px",
     minHeight: "100vh",
@@ -115,6 +115,7 @@ const styles = {
     padding: "0 10px",
   },
   title: {
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     color: "#1e90ff",
     marginBottom: "15px",
     fontWeight: "700",
@@ -141,6 +142,7 @@ const styles = {
   },
   sectionTitle: {
     fontSize: "clamp(1.4rem, 3vw, 2rem)",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     color: "#1e90ff",
     marginBottom: "20px",
     fontWeight: "600",
@@ -158,13 +160,13 @@ const styles = {
   // CONTACT SECTION
   contact: {
     padding: "50px 20px",
-    backgroundColor: "#111",
+    backgroundImage: "linear-gradient(to bottom right, #001428ff, #001223ff)",
+    boxShadow: "0 10px 20px rgba(0,0,0,0.8)",
     color: "#fff",
     textAlign: "center",
     borderRadius: "15px",
     maxWidth: "900px",
     margin: "0 auto",
-    boxShadow: "0 0 20px rgba(0,0,0,0.5)",
   },
   socialLinks: {
     display: "flex",
@@ -172,6 +174,7 @@ const styles = {
     flexWrap: "wrap",
     gap: "15px",
     marginTop: "25px",
+    
   },
   link: {
     display: "flex",
@@ -182,6 +185,7 @@ const styles = {
     color: "#fff",
     padding: "10px 20px",
     borderRadius: "10px",
+    boxShadow: "0 1px 5px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     background: "rgba(255,255,255,0.05)",
     transition: "all 0.3s ease",
   },

@@ -116,13 +116,13 @@ const MemoryGame = () => {
   return (
     <div style={{
       textAlign: "center",
-      color: "#00f",
-      fontFamily: "Arial, sans-serif",
-      backgroundColor: "#000",
+      color: "#1e90ff",
+      fontFamily: "'Times New Roman', serif",
+      backgroundColor: "transparent",
       minHeight: "100vh",
       padding: "20px"
     }}>
-      <h1 style={{textShadow: "0 0 12px #00f"}}>🧠 Quest for Past</h1>
+      <h1 style={{textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)"}}>🧠 Quest for Past</h1>
 
       {matches === totalMatches ? (
         <div style={{
@@ -161,6 +161,7 @@ const MemoryGame = () => {
         {!gameStarted ? (
           <button style={{
             padding: "10px 20px",
+            fontFamily: "'Times New Roman', serif",
             fontSize: "16px",
             backgroundColor: "#00f",
             color: "#000",
@@ -175,6 +176,7 @@ const MemoryGame = () => {
         ) : (
           <button style={{
             padding: "10px 20px",
+            fontFamily: "'Times New Roman', serif",
             fontSize: "16px",
             backgroundColor: "#00f",
             color: "#000",

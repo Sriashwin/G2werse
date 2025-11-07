@@ -16,7 +16,7 @@ function Tile({ tile, onClick }) {
                 fontSize: "40px",
                 cursor: "pointer",
                 borderRadius: "10px",
-                boxShadow: "0 0 10px #00f",
+                boxShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
                 userSelect: "none"
             }}
         >

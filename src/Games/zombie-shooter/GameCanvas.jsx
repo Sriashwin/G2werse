@@ -148,9 +148,9 @@ export default function GameCanvas({
 
     function drawBoundary() {
       ctx.save();
-      ctx.strokeStyle = "#00f";
-      ctx.lineWidth = 4;
-      ctx.shadowColor = "#00f";
+      ctx.strokeStyle = "#1e90ff";
+      ctx.lineWidth = 3;
+      ctx.shadowColor = "#1e90ff";
       ctx.shadowBlur = 16;
       ctx.strokeRect(2, 2, CANVAS_W - 4, CANVAS_H - 4);
       ctx.restore();
@@ -163,7 +163,7 @@ export default function GameCanvas({
       // Draw start message
       if (!running && !dead) {
         ctx.fillStyle = "#0ff";
-        ctx.font = "40px 'Arial', sans-serif";
+        ctx.font = "40px 'Times New Roman', serif";
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
         ctx.shadowBlur = 10;
@@ -259,8 +259,9 @@ export default function GameCanvas({
       if (dead) {
         setRunning(false);
         setGameOver(true);
+        startedRef.current = false;
         ctx.fillStyle = "#0ff";
-        ctx.font = "40px 'Arial', sans-serif";
+        ctx.font = "40px 'Times New Roman', serif";
         ctx.textAlign = "center";
         ctx.shadowColor = "#0ff";
         ctx.shadowBlur = 25;

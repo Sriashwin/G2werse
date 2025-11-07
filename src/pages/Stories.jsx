@@ -16,18 +16,18 @@ export default function Stories({ onDataLoaded }) {
           "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
       },
       {
+        title: "An Epic Myth Of Love",
+        cover: "AEML.webp",
+        link: "https://medium.com/@yourusername/journey-beyond-abcde",
+        genre: "Love",
+        synopsis: "Poem Collections: An epic tale of love that became his own myth",
+      },
+      {
         title: "As The Angel Wished",
         cover: "ATAW.webp",
         link: "https://medium.com/@yourusername/whispers-in-the-dark-67890",
         genre: "Fantasy",
         synopsis: "The Angel gave him six. Could he give her the seventh?",
-      },
-      {
-        title: "Coming Soon",
-        cover: "/assets/stories/story3.jpg",
-        link: "https://medium.com/@yourusername/journey-beyond-abcde",
-        genre: "TBA",
-        synopsis: "TBA",
       },
     ];
 
@@ -128,12 +128,13 @@ const styles = {
     minHeight: "100vh",
     padding: "40px 20px",
     textAlign: "center",
-    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
+    fontFamily: "'Times New Roman', serif",
   },
   title: {
     fontSize: "36px",
     color: "#1e90ff",
     marginBottom: "30px",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
   },
   grid: {
     display: "grid",
@@ -144,7 +145,9 @@ const styles = {
   card: {
     textDecoration: "none",
     color: "#ddd",
+    boxShadow: "0 0 20px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     position: "relative",
+    borderRadius: "15px",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
     cursor: "pointer",
     width: "100%",
@@ -154,7 +157,7 @@ const styles = {
     width: "100%",
     objectFit: "contain",
     height: "auto",
-    borderRadius: "10px",
+    borderRadius: "15px",
     marginBottom: "10px",
     boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
     display: "block",

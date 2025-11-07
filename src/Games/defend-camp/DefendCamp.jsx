@@ -167,8 +167,8 @@ const DefendCamp = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{textShadow: "0 0 12px #00f"}}>🛡️ Defend the Camp</h1>
+    <div style={{ textAlign: "center", color: "#1e90ff", fontFamily: "'Times New Roman', serif" }}>
+      <h1 style={{textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)"}}>🛡️ Defend the Camp</h1>
       <h3 style={{ color: "#0f0", textShadow: "0 0 10px #0f0" }}>
         Camp Health: {campHealth} | Time: {timeSurvived}s | Durability: {highScoreRef.current}s
       </h3>
@@ -181,7 +181,7 @@ const DefendCamp = () => {
           height: arenaHeight,
           margin: "0 auto 20px auto",
           backgroundColor: "#000",
-          border: "3px solid #00f",
+          border: "3px solid #1e90ff",
           borderRadius: "10px",
           overflow: "hidden",
         }}
@@ -225,6 +225,7 @@ const DefendCamp = () => {
               fontSize: "40px",
               textAlign: "center",
               textShadow: "0 0 10px #0ff",
+              zIndex: 3
             }}
           >
             Game Over 💀
@@ -237,6 +238,7 @@ const DefendCamp = () => {
         onClick={startGame}
         style={{
           padding: "12px 28px",
+          fontFamily: "'Times New Roman', serif",
           fontSize: "16px",
           backgroundColor: "#00f",
           color: "#000",

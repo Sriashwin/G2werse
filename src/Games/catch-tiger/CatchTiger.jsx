@@ -176,8 +176,8 @@ const CatchTiger = () => {
   };
 
   return (
-    <div style={{ textAlign: "center", color: "#00f", fontFamily: "Arial, sans-serif" }}>
-      <h1 style={{ color: "#00f", fontFamily: "Arial, sans-serif", textShadow: "0 0 12px #00f" }}>🐅 Catch Charlie</h1>
+    <div style={{ textAlign: "center", color: "#1e90ff", fontFamily: "'Times New Roman', serif" }}>
+      <h1 style={{ color: "#1e90ff", fontFamily: "'Times New Roman', serif", textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)" }}>🐅 Catch Charlie</h1>
       <h3 style={{ color: "#0f0", textShadow: "0 0 10px #0f0" }}>Score: {score} | Time: {timer}s | Speed: {highScore}s</h3>
 
       <div
@@ -186,7 +186,7 @@ const CatchTiger = () => {
           width: arenaWidth,
           height: arenaHeight,
           margin: "0 auto 20px auto",
-          border: "3px solid #00f",
+          border: "3px solid #1e90ff",
           borderRadius: "10px",
           backgroundColor: "#000",
           overflow: "hidden",
@@ -250,6 +250,7 @@ const CatchTiger = () => {
           <button
             onClick={startGame}
             style={{
+              fontFamily: "'Times New Roman', serif",
               padding: "10px 20px",
               fontSize: "16px",
               backgroundColor: "#00f",
@@ -267,6 +268,7 @@ const CatchTiger = () => {
           <button
             onClick={restartGame}
             style={{
+              fontFamily: "'Times New Roman', serif",
               padding: "10px 20px",
               fontSize: "16px",
               backgroundColor: "#00f",
