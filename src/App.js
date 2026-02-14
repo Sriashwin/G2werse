@@ -66,20 +66,6 @@ function AppContent() {
 
       {/* MAIN CONTENT */}
       <div style={styles.appContainer}>
-        {/* HERO SECTION
-        <div style={styles.heroSection}>
-          <img
-            src={`${process.env.PUBLIC_URL}/assets/banner.webp`}
-            alt="A Rise of the War"
-            style={styles.heroImage}
-          />
-          <div style={styles.heroOverlay}>
-            <h1 style={styles.heroTitle}>G2WERSE</h1>
-            <p style={styles.heroSubtitle}>
-              A Fallen Hero in a Forsaken World Fighting a Never-ending War
-            </p>
-          </div>
-        </div> */}
 
         {/* NAVBAR */}
         <nav style={styles.navbar}>
@@ -87,7 +73,7 @@ function AppContent() {
             {/* Logo + Title */}
             <div style={styles.navLogoSection}>
               <img
-                src={`${process.env.PUBLIC_URL}/g2w.ico`}
+                src={`${process.env.PUBLIC_URL}/g2w.webp`}
                 alt="logo"
                 style={styles.logo}
               />
@@ -174,7 +160,7 @@ function AppContent() {
           z-index: 1000;
           backdrop-filter: blur(10px);
           background-image: linear-gradient(to bottom, rgba(2, 25, 46, 0.9), rgba(0, 12, 22, 0.9));
-          border-bottom: 2px solid rgba(30, 144, 255, 0.5);
+          border-bottom: 3px solid rgba(30, 144, 255, 0.5);
           box-shadow: 0 0 10px rgba(30,144,255,0.2);
         }
 
@@ -389,11 +375,11 @@ const styles = {
   logo: {
     width: "36px",
     height: "36px",
-    filter: "drop-shadow(0 0 8px #1e90ff)",
+    filter: "drop-shadow(0 0 8px #0958a6ff)",
     transition: "transform 0.3s ease, filter 0.3s ease",
   },
   navTitle: {
-    color: "#1e90ff",
+    color: "#9dc9ff",
     fontWeight: "700",
     fontSize: "1.3rem",
     letterSpacing: "1px",

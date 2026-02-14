@@ -55,10 +55,11 @@ const styles = {
     marginBottom: "50px",
   },
   title: {
-    fontSize: "36px",
-    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     color: "#1e90ff",
-    marginBottom: "30px",
+    fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+    fontWeight: "700",
+    marginBottom: "20px",
+    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
   },
   buttons: {
     display: "flex",

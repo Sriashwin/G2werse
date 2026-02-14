@@ -15,16 +15,20 @@ export default function Poems() {
   const touchEndX = useRef(0);
   const touchMoved = useRef(false);
 
-  // Load main poems
+  // Load main poems (English/Tamil)
   useEffect(() => {
     const file = language === "English" ? "english.json" : "tamil.json";
+
     fetch(`${process.env.PUBLIC_URL}/json/${file}`)
       .then((res) => res.json())
-      .then((data) => setPoems(data))
+      .then((data) => {
+        setPoems(data);
+        setActiveIndexMain(0);
+      })
       .catch((err) => console.error("Error loading poems:", err));
   }, [language]);
 
-  // Load other poems
+  // Load other poems (Themes with links)
   useEffect(() => {
     fetch(`${process.env.PUBLIC_URL}/json/others.json`)
       .then((res) => res.json())
@@ -37,9 +41,12 @@ export default function Poems() {
     if (typeof window !== "undefined" && window.matchMedia) {
       const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
       setSupportsHover(mq.matches);
+
       const onChange = (e) => setSupportsHover(e.matches);
+
       if (mq.addEventListener) mq.addEventListener("change", onChange);
       else mq.addListener(onChange);
+
       return () => {
         if (mq.removeEventListener) mq.removeEventListener("change", onChange);
         else mq.removeListener(onChange);
@@ -52,34 +59,57 @@ export default function Poems() {
   // Slider navigation
   const prevCard = (isOther = false) => {
     if (isOther) {
-      setActiveIndexOther((prev) => (prev === 0 ? otherPoems.length - 1 : prev - 1));
+      setActiveIndexOther((prev) =>
+        prev === 0 ? otherPoems.length - 1 : prev - 1
+      );
     } else {
-      setActiveIndexMain((prev) => (prev === 0 ? poems.length - 1 : prev - 1));
-    }
-  };
-  const nextCard = (isOther = false) => {
-    if (isOther) {
-      setActiveIndexOther((prev) => (prev === otherPoems.length - 1 ? 0 : prev + 1));
-    } else {
-      setActiveIndexMain((prev) => (prev === poems.length - 1 ? 0 : prev + 1));
+      setActiveIndexMain((prev) =>
+        prev === 0 ? poems.length - 1 : prev - 1
+      );
     }
   };
 
-  // Touch swipe handlers
+  const nextCard = (isOther = false) => {
+    if (isOther) {
+      setActiveIndexOther((prev) =>
+        prev === otherPoems.length - 1 ? 0 : prev + 1
+      );
+    } else {
+      setActiveIndexMain((prev) =>
+        prev === poems.length - 1 ? 0 : prev + 1
+      );
+    }
+  };
+
+  // ✅ FIXED Touch Swipe Handlers (Tap never slides)
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = touchStartX.current;
+
+    // Reset moved flag
     touchMoved.current = false;
   };
+
   const handleTouchMove = (e) => {
     touchEndX.current = e.touches[0].clientX;
-    touchMoved.current = true;
+
+    // Mark swipe only if moved enough
+    if (Math.abs(touchStartX.current - touchEndX.current) > 10) {
+      touchMoved.current = true;
+    }
   };
+
   const handleTouchEnd = (isOther = false) => {
     const diff = touchStartX.current - touchEndX.current;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) nextCard(isOther);
-      else prevCard(isOther);
-    }
+
+    // Tap = no slide
+    if (Math.abs(diff) < 50) return;
+
+    // Swipe = slide
+    if (diff > 0) nextCard(isOther);
+    else prevCard(isOther);
+
+    touchMoved.current = false;
   };
 
   // Helper to render slider
@@ -91,16 +121,29 @@ export default function Poems() {
         onTouchMove={handleTouchMove}
         onTouchEnd={() => handleTouchEnd(isOther)}
       >
-        <button style={sliderStyles.btn} onClick={() => prevCard(isOther)}>
+        {/* ✅ Desktop only arrows */}
+        <button
+          style={{
+            ...sliderStyles.btn,
+            display: window.innerWidth <= 768 ? "none" : "block",
+          }}
+          onClick={() => prevCard(isOther)}
+        >
           <ChevronLeft size={32} />
         </button>
 
         <div style={sliderStyles.cardsWrapper}>
           {data.map((poem, index) => {
             let className = "";
+
             if (index === activeIndex) className = "active";
-            else if (index === (activeIndex - 1 + data.length) % data.length) className = "left";
-            else if (index === (activeIndex + 1) % data.length) className = "right";
+            else if (
+              index ===
+              (activeIndex - 1 + data.length) % data.length
+            )
+              className = "left";
+            else if (index === (activeIndex + 1) % data.length)
+              className = "right";
             else className = "back";
 
             return (
@@ -115,15 +158,22 @@ export default function Poems() {
                 <PoemCard
                   poem={poem}
                   supportsHover={supportsHover}
-                  showLanguage={isOther}
                   touchMoved={touchMoved}
+                  enableLink={isOther} // ✅ Only Other Themes opens links
                 />
               </div>
             );
           })}
         </div>
 
-        <button style={sliderStyles.btn} onClick={() => nextCard(isOther)}>
+        {/* ✅ Desktop only arrows */}
+        <button
+          style={{
+            ...sliderStyles.btn,
+            display: window.innerWidth <= 768 ? "none" : "block",
+          }}
+          onClick={() => nextCard(isOther)}
+        >
           <ChevronRight size={32} />
         </button>
       </div>
@@ -137,10 +187,11 @@ export default function Poems() {
       {/* Language Toggle */}
       <div style={styles.languageSelector}>
         <div
-          onClick={() => setLanguage(language === "English" ? "Tamil" : "English")}
+          onClick={() =>
+            setLanguage(language === "English" ? "Tamil" : "English")
+          }
           style={styles.toggleContainer}
         >
-          {/* Sliding Thumb showing selected language */}
           <div
             style={{
               ...styles.toggleThumb,
@@ -150,10 +201,9 @@ export default function Poems() {
             {language}
           </div>
 
-          {/* Inactive labels behind */}
           <div style={styles.toggleLabels}>
-            <span style={{ color: language === "English" ? "#ffffffff" : "#ffffffff" }}>English</span>
-            <span style={{ color: language === "Tamil" ? "#ffffffff" : "#ffffffff" }}>Tamil</span>
+            <span>English</span>
+            <span>Tamil</span>
           </div>
         </div>
       </div>
@@ -161,24 +211,37 @@ export default function Poems() {
       {/* Main poems slider */}
       {poems.length > 0 && renderSlider(poems, activeIndexMain)}
 
-      {/* Other Poems Slider */}
+      {/* Other Themes slider */}
       {otherPoems.length > 0 && (
         <>
-          <h2 style={{ color: "#1e90ff", textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)", marginTop: "50px" }}>Other Themes</h2>
+          <h2
+            style={{
+              color: "#1e90ff",
+              fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+              marginBottom: "20px",
+              textShadow:
+                "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+            }}
+          >
+            Other Themes
+          </h2>
+
           {renderSlider(otherPoems, activeIndexOther, true)}
         </>
       )}
 
+      {/* Hint */}
       <p style={styles.hint}>
-        Desktop: Hover to see description, click to open. <br />
-        Mobile: Swipe to slide, tap twice to open link.
+        Desktop: Hover to preview poems. <br />
+        Mobile: Tap to preview, swipe to slide. <br />
+        Other Themes: Double tap or click to open link.
       </p>
     </div>
   );
 }
 
-// PoemCard component
-function PoemCard({ poem, supportsHover, showLanguage, touchMoved }) {
+// ✅ FULL FIXED PoemCard Component
+function PoemCard({ poem, supportsHover, touchMoved, enableLink }) {
   const [hover, setHover] = useState(false);
   const [tappedOnce, setTappedOnce] = useState(false);
   const tapTimeout = useRef(null);
@@ -186,22 +249,42 @@ function PoemCard({ poem, supportsHover, showLanguage, touchMoved }) {
   const handleMouseEnter = () => {
     if (supportsHover) setHover(true);
   };
+
   const handleMouseLeave = () => {
     if (supportsHover) setHover(false);
   };
 
+  // ✅ Fixed Click Logic
   const handleClick = (e) => {
+    // Ignore if swipe happened
+    if (touchMoved.current) {
+      touchMoved.current = false;
+      return;
+    }
+
+    // ✅ Tamil/English poems: tap only preview
+    if (!enableLink) {
+      setTappedOnce(true);
+
+      clearTimeout(tapTimeout.current);
+      tapTimeout.current = setTimeout(() => {
+        setTappedOnce(false);
+      }, 1500);
+
+      return;
+    }
+
+    // ✅ Other Themes: must have link
+    if (!poem.link) return;
+
+    // Desktop click opens directly
     if (supportsHover) {
       window.open(poem.link, "_blank");
       return;
     }
 
+    // Mobile double tap opens link
     e.preventDefault();
-
-    if (touchMoved.current) {
-      touchMoved.current = false;
-      return;
-    }
 
     if (!tappedOnce) {
       setTappedOnce(true);
@@ -220,17 +303,17 @@ function PoemCard({ poem, supportsHover, showLanguage, touchMoved }) {
     <div
       style={{
         ...styles.poemCard,
+        cursor: enableLink ? "pointer" : "default",
         transform: showInfo ? "scale(1.05)" : "scale(1)",
         zIndex: showInfo ? 5 : 1,
       }}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}
-      onTouchStart={() => (touchMoved.current = false)}
-      onTouchMove={() => (touchMoved.current = true)}
     >
       <div style={styles.titleWrapper}>
         <div style={styles.poemTitle}>{poem.title}</div>
+
         <div
           style={{
             height: "2px",
@@ -249,7 +332,8 @@ function PoemCard({ poem, supportsHover, showLanguage, touchMoved }) {
           opacity: showInfo ? 1 : 0.6,
           filter: showInfo ? "blur(0)" : "blur(2px)",
           transform: showInfo ? "translateY(0)" : "translateY(5px)",
-          transition: "opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease",
+          transition:
+            "opacity 0.3s ease, filter 0.3s ease, transform 0.3s ease",
         }}
       >
         {poem.lines.slice(0, 4).map((line, idx) => (
@@ -276,7 +360,6 @@ const styles = {
     backgroundColor: "transparent",
     color: "#ddd",
     fontFamily: "'Times New Roman', serif",
-    lineHeight: 1.6,
     padding: "40px 20px",
     minHeight: "100vh",
     textAlign: "center",
@@ -286,13 +369,13 @@ const styles = {
     fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
     fontWeight: "700",
     marginBottom: "20px",
-    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+    textShadow:
+      "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
   },
   languageSelector: {
     marginBottom: "30px",
     display: "flex",
     justifyContent: "center",
-    gap: "15px",
   },
   toggleContainer: {
     width: "200px",
@@ -303,7 +386,8 @@ const styles = {
     display: "flex",
     alignItems: "center",
     backgroundImage: "linear-gradient(to bottom right, #01203dff, #011120ff)",
-    boxShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+    boxShadow:
+      "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     padding: "2px",
     userSelect: "none",
   },
@@ -323,23 +407,22 @@ const styles = {
     zIndex: 2,
   },
   toggleLabels: {
-    position: "relative",
     width: "100%",
     display: "flex",
     justifyContent: "space-between",
     padding: "0px 25px",
     fontWeight: 600,
-    zIndex: 1,
     pointerEvents: "none",
+    color: "#fff",
   },
   poemCard: {
     width: "100%",
     height: "100%",
     borderRadius: "25px",
     overflow: "hidden",
-    boxShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+    boxShadow:
+      "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     backgroundImage: "linear-gradient(to bottom right, #001931ff, #000000)",
-    cursor: "pointer",
     padding: "16px",
     boxSizing: "border-box",
     display: "flex",
@@ -362,16 +445,14 @@ const styles = {
     fontSize: "1rem",
     fontWeight: 600,
     color: "#1e90ff",
-    textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+    textShadow:
+      "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     lineHeight: 1.2,
     wordBreak: "break-word",
   },
   lineContainer: {
     position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    inset: 0,
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -385,7 +466,6 @@ const styles = {
     fontSize: "0.92rem",
     color: "#ddd",
     margin: "8px 0",
-    lineHeight: 1.35,
   },
   hint: {
     marginTop: "20px",
@@ -401,7 +481,6 @@ const sliderStyles = {
     alignItems: "center",
     justifyContent: "center",
     gap: "10px",
-    flexWrap: "nowrap",
     marginBottom: "40px",
     overflow: "hidden",
     position: "relative",

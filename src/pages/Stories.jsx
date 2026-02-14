@@ -3,47 +3,73 @@ import React, { useState, useEffect, useRef } from "react";
 import "../App.css";
 
 export default function Stories({ onDataLoaded }) {
-  const [stories, setStories] = useState([]);
+  const [entropyTrilogy, setEntropyTrilogy] = useState([]);
+  const [otherStories, setOtherStories] = useState([]);
 
   useEffect(() => {
-    const localData = [
-      {
-        title: "In The World of War",
-        cover: "ITWOW.webp",
-        link: "https://writersaps.medium.com/a-day-he-woke-up-66010844f89e",
-        genre: "Sci-Fi",
-        synopsis:
-          "In a world full of War, Dr. SAPS must unravel humanity's mistakes before it's too late.",
-      },
-      {
-        title: "An Epic Myth Of Love",
-        cover: "AEML.webp",
-        link: "https://medium.com/@yourusername/journey-beyond-abcde",
-        genre: "Love",
-        synopsis: "Poem Collections: An epic tale of love that became his own myth",
-      },
+    const entropyData = [
       {
         title: "As The Angel Wished",
         cover: "ATAW.webp",
         link: "https://medium.com/@yourusername/whispers-in-the-dark-67890",
         genre: "Fantasy",
-        synopsis: "The Angel gave him six. Could he give her the seventh?",
+        synopsis: "The Angel gave him six boons. Could he give her the seventh?",
+      },
+      {
+        title: "She Chose The Crown",
+        cover: "SCTC.webp",
+        link: "https://medium.com/@yourusername/journey-beyond-abcde",
+        genre: "Psychological",
+        synopsis: "She never wanted to move on. So she chose a crown as a mask to the world.",
+      },
+      {
+        title: "In The World of War",
+        cover: "ITWOW.webp",
+        link: "https://play.google.com/store/books/details/SRIASHWIN_S_IN_THE_WORLD_OF_WAR?id=n1FOEQAAQBAJ&hl=en_IN",
+        genre: "Dystopian",
+        synopsis: "In a world fed by war, he must uncover the root before it consumes everything.",
       },
     ];
 
-    setStories(localData);
+    const otherStoriesData = [
+      {
+        title: "An Epic Myth Of Love",
+        cover: "AEML.webp",
+        link: "https://direct.notionpress.com/in/read/an-epic-myth-of-love",
+        genre: "Poem",
+        synopsis: "Poem Collections: An epic tale of love that became his own myth",
+      },
+    ];
+
+    setEntropyTrilogy(entropyData);
+    setOtherStories(otherStoriesData);
+
     if (onDataLoaded) onDataLoaded();
   }, [onDataLoaded]);
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Short Stories</h1>
 
+      {/* Entropy Trilogy Section */}
+      <h2 style={styles.sectionTitle}>Entropy: A Trilogy Of Being<br/><h3 style={styles.sectionSubTitle}>A philosophical collections exploring themes of Love at Home, Truth in Society and Survival in the World.</h3></h2>
+      <br/>
       <div style={styles.grid}>
-        {stories.map((story, index) => (
-          <StoryCard key={index} story={story} />
+        {entropyTrilogy.map((story, index) => (
+          <StoryCard key={`entropy-${index}`} story={story} />
         ))}
       </div>
+
+      {/* Other Short Stories (future-proof) */}
+      {otherStories.length > 0 && (
+        <>
+          <h2 style={styles.sectionTitle}>Other Books</h2><br/>
+          <div style={styles.grid}>
+            {otherStories.map((story, index) => (
+              <StoryCard key={`other-${index}`} story={story} />
+            ))}
+          </div>
+        </>
+      )}
 
       <p style={styles.hint}>
         Desktop: Hover to see description, click to open. <br />
@@ -59,10 +85,10 @@ function StoryCard({ story }) {
   const [tapped, setTapped] = useState(false);
 
   const isTouchDevice = useRef(
-    "ontouchstart" in window || navigator.maxTouchPoints > 0
+    typeof window !== "undefined" &&
+      ("ontouchstart" in window || navigator.maxTouchPoints > 0)
   ).current;
 
-  // Desktop hover
   const handleMouseEnter = () => {
     if (!isTouchDevice) setHover(true);
   };
@@ -72,7 +98,6 @@ function StoryCard({ story }) {
     setTapped(false);
   };
 
-  // Click / Tap
   const handleClick = (e) => {
     if (isTouchDevice) {
       e.preventDefault();
@@ -130,11 +155,19 @@ const styles = {
     textAlign: "center",
     fontFamily: "'Times New Roman', serif",
   },
-  title: {
-    fontSize: "36px",
+  
+  sectionTitle: {
     color: "#1e90ff",
-    marginBottom: "30px",
+    fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+    fontWeight: "700",
+    marginBottom: "20px",
     textShadow: "0 0 10px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
+  },
+  sectionSubTitle: {
+    fontSize: "16px",
+    fontWeight: "500",
+    color: "#ccc",
+    margin: "10px 0 20px",
   },
   grid: {
     display: "grid",
@@ -145,20 +178,20 @@ const styles = {
   card: {
     textDecoration: "none",
     color: "#ddd",
+    overflow: "hidden",
     boxShadow: "0 0 20px rgba(30,144,255,0.6), 0 10px 20px rgba(0,0,0,0.8)",
     position: "relative",
     borderRadius: "15px",
     transition: "transform 0.3s ease, box-shadow 0.3s ease",
     cursor: "pointer",
     width: "100%",
+    height: "100%",
     maxWidth: "220px",
   },
   image: {
     width: "100%",
-    objectFit: "contain",
-    height: "auto",
+    objectFit: "cover",
     borderRadius: "15px",
-    marginBottom: "10px",
     boxShadow: "0 4px 10px rgba(0,0,0,0.5)",
     display: "block",
   },
