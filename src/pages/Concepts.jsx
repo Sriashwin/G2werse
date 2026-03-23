@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Art() {
+function Concepts() {
   return (
     <div>
       
@@ -8,4 +8,4 @@ function Art() {
   )
 }
 
-export default Art
+export default Concepts

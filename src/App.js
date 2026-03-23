@@ -6,12 +6,12 @@ import { imagesToPreload, preloadImages } from "./preloadImages";
 import Home from "./pages/Home";
 import Poems from "./pages/Poems";
 import Stories from "./pages/Stories";
-import Novel from "./pages/Novel";
-import Art from "./pages/Art";
+import Novels from "./pages/Novels";
+import Concepts from "./pages/Concepts";
 import Games from "./pages/Games";
 
 // Novels
-import Book1 from "./Novel/book1";
+import Book1 from "./Novels/book1";
 
 function AppContent() {
   const [fadeOut, setFadeOut] = useState(false);
@@ -93,7 +93,7 @@ function AppContent() {
 
             {/* Menu Links */}
             <ul className={`nav-links ${menuOpen ? "open" : ""}`}>
-              {["Home", "Poems", "Stories", "Novel", "Art", "Games"].map(
+              {["Home", "Poems", "Stories", "Novels", "Concepts", "Games"].map(
                 (item) => {
                   const path = item === "Home" ? "/" : `/${item.toLowerCase()}`;
                   return (
@@ -122,9 +122,9 @@ function AppContent() {
             <Route path="/" element={<Home />} />
             <Route path="/poems" element={<Poems />} />
             <Route path="/stories" element={<Stories />} />
-            <Route path="/novel" element={<Novel />} />
-            <Route path="/novel/book1" element={<Book1 />} />
-            <Route path="/art" element={<Art />} />
+            <Route path="/novels" element={<Novels />} />
+            <Route path="/novels/book1" element={<Book1 />} />
+            <Route path="/concepts" element={<Concepts />} />
             <Route path="/games/*" element={<Games />} />
           </Routes>
         </div>

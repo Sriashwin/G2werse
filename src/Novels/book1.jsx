@@ -1,4 +1,4 @@
-// src/Novel/book1.jsx
+// src/Novels/book1.jsx
 import React, { useEffect, useState, useRef } from "react";
 
 const trailerLink = "https://youtu.be/idWl77Ag_YI?si=VnGZQLkbrqddtqMq";

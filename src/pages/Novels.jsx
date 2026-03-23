@@ -1,14 +1,14 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Novel() {
+export default function Novels() {
   const navigate = useNavigate();
 
   const novels = [
     {
       image: "book1.webp",
       locked: false,
-      link: "/novel/book1",
+      link: "/novels/book1",
       title: "A Rise Of The War",
       genre: "Psychological | Sci-fi Thriller",
       synopsis: "Fallen hero in a forsaken world fighting a never-ending war",
@@ -16,7 +16,7 @@ export default function Novel() {
     {
       image: "book2.png",
       locked: true,
-      link: "/novel/book2",
+      link: "/novels/book2",
       title: "A War Lies Within",
       genre: "Crime Thriller",
       synopsis: "The night, many died. But the one death mattered.",
@@ -24,7 +24,7 @@ export default function Novel() {
     {
       image: "book3.png",
       locked: true,
-      link: "/novel/book3",
+      link: "/novels/book3",
       title: "To Let A War Begin",
       genre: "Sci-Fi | Spy Thriller",
       synopsis: "Could he save the world? Or at least, his family?",
@@ -32,7 +32,7 @@ export default function Novel() {
     {
       image: "book4.png",
       locked: true,
-      link: "/novel/book4",
+      link: "/novels/book4",
       title: "Pride To War A Prime",
       genre: "Political Thriller",
       synopsis: "Finally, a spark had born from ashes to lead the war.",
@@ -40,7 +40,7 @@ export default function Novel() {
     {
       image: "book5.png",
       locked: true,
-      link: "/novel/book5",
+      link: "/novels/book5",
       title: "Project: Written A War",
       genre: "Sci-Fi | Horror",
       synopsis: "In the dark expanse of space, the history threatens the future.",
@@ -48,7 +48,7 @@ export default function Novel() {
     {
       image: "book6.png",
       locked: true,
-      link: "/novel/book6",
+      link: "/novels/book6",
       title: "Once Upon In The war",
       genre: "Fantasy",
       synopsis: "War isn't what borns on each era. It is what takes its form.",
@@ -56,7 +56,7 @@ export default function Novel() {
     {
       image: "book7.png",
       locked: true,
-      link: "/novel/book7",
+      link: "/novels/book7",
       title: "A War We Wanted Once",
       genre: "War Thriller",
       synopsis: "An inevitable end for the war against reality",
@@ -72,12 +72,12 @@ export default function Novel() {
 
       <div style={styles.row}>
         {topRow.map((book, index) => (
-          <NovelCard key={index} book={book} navigate={navigate} />
+          <NovelsCard key={index} book={book} navigate={navigate} />
         ))}
       </div>
       <div style={styles.row}>
         {bottomRow.map((book, index) => (
-          <NovelCard key={index} book={book} navigate={navigate} />
+          <NovelsCard key={index} book={book} navigate={navigate} />
         ))}
       </div>
 
@@ -89,7 +89,7 @@ export default function Novel() {
   );
 }
 
-function NovelCard({ book, navigate }) {
+function NovelsCard({ book, navigate }) {
   const [hover, setHover] = useState(false);
   const [tapped, setTapped] = useState(false);
   const isTouchDevice = useRef(
@@ -121,7 +121,7 @@ function NovelCard({ book, navigate }) {
   return (
     <div
       style={{
-        ...styles.novelCard,
+        ...styles.novelsCard,
         transform: showInfo ? "scale(1.1)" : "scale(1)",
         zIndex: showInfo ? 5 : 1,
       }}
@@ -132,7 +132,7 @@ function NovelCard({ book, navigate }) {
       <img
         src={`${process.env.PUBLIC_URL}/assets/${book.image}`}
         alt={book.title}
-        style={styles.novelImage}
+        style={styles.novelsImage}
         draggable="false"
       />
 
@@ -172,7 +172,7 @@ const styles = {
     justifyContent: "center",
     marginBottom: "40px",
   },
-  novelCard: {
+  novelsCard: {
     position: "relative",
     width: "180px",
     height: "270px",
@@ -185,7 +185,7 @@ const styles = {
     WebkitTapHighlightColor: "transparent",
     userSelect: "none",
   },
-  novelImage: {
+  novelsImage: {
     width: "100%",
     height: "100%",
     objectFit: "cover",
