@@ -1,15 +1,40 @@
 {
   "files": {
     "main.css": "/G2werse/static/css/main.cb9a4d99.css",
-    "main.js": "/G2werse/static/js/main.3649a162.js",
+    "main.js": "/G2werse/static/js/main.cb9e1c2c.js",
     "static/js/453.8ea5f859.chunk.js": "/G2werse/static/js/453.8ea5f859.chunk.js",
+    "static/media/Camp 2.webp": "/G2werse/static/media/Camp 2.e33df71a3301d484bca5.webp",
+    "static/media/Mall.webp": "/G2werse/static/media/Mall.4c131d481d0be6f952ee.webp",
+    "static/media/Camp 1.webp": "/G2werse/static/media/Camp 1.f694de49620df4f6f29e.webp",
+    "static/media/Fallen Kingdom.webp": "/G2werse/static/media/Fallen Kingdom.9ab2f39bfab947df0d92.webp",
+    "static/media/Horde Heli 2.webp": "/G2werse/static/media/Horde Heli 2.25eb32fcfd94cb8e7432.webp",
+    "static/media/Horde Heli 1.webp": "/G2werse/static/media/Horde Heli 1.00e0bcb01b7d86e5cb6b.webp",
+    "static/media/Golden Ashland 1.webp": "/G2werse/static/media/Golden Ashland 1.33a23eff9cc3cb216e92.webp",
+    "static/media/Defend the Camp.webp": "/G2werse/static/media/Defend the Camp.abc5e61a57611c6b14f4.webp",
+    "static/media/Toxy Tyre 1.webp": "/G2werse/static/media/Toxy Tyre 1.d53f0cd960288a059598.webp",
+    "static/media/Toxy-Tyre 2.webp": "/G2werse/static/media/Toxy-Tyre 2.5363602367ab32ff5a65.webp",
+    "static/media/Golden Ashland 2.webp": "/G2werse/static/media/Golden Ashland 2.78a38c19c5a1aaaec043.webp",
+    "static/media/Horde Fall.webp": "/G2werse/static/media/Horde Fall.dca502e53415f16e2dc5.webp",
+    "static/media/Prophecy 2.webp": "/G2werse/static/media/Prophecy 2.84e1a18e4c0f77cfc6e5.webp",
+    "static/media/Silhouette.webp": "/G2werse/static/media/Silhouette.9afeb3741994c93354cf.webp",
+    "static/media/Silhouette Moon Solo.webp": "/G2werse/static/media/Silhouette Moon Solo.31e2c582ba4997ff5ee8.webp",
+    "static/media/Flow Chart.webp": "/G2werse/static/media/Flow Chart.26bdd0372e59ad75cff8.webp",
+    "static/media/Cover Wide.webp": "/G2werse/static/media/Cover Wide.3b45fb1e1d14bcd42491.webp",
+    "static/media/Silhouette Moon.webp": "/G2werse/static/media/Silhouette Moon.a8c754a79f684bea1712.webp",
+    "static/media/Charlie.webp": "/G2werse/static/media/Charlie.b9165cbced6fb4cd9dd1.webp",
+    "static/media/Cover Horde.webp": "/G2werse/static/media/Cover Horde.b1c80e8d4a330b412544.webp",
+    "static/media/Cover 1.webp": "/G2werse/static/media/Cover 1.5526189ae24a01d1d898.webp",
+    "static/media/Hollow Flame.webp": "/G2werse/static/media/Hollow Flame.e71c7da042c32c2c97bf.webp",
+    "static/media/Gate To War.webp": "/G2werse/static/media/Gate To War.8314ce69f932885d11d2.webp",
+    "static/media/Crown and Cure.webp": "/G2werse/static/media/Crown and Cure.fd107c9e1c46b6949477.webp",
+    "static/media/G2W Trinity.webp": "/G2werse/static/media/G2W Trinity.e904300d467390929945.webp",
     "index.html": "/G2werse/index.html",
     "main.cb9a4d99.css.map": "/G2werse/static/css/main.cb9a4d99.css.map",
-    "main.3649a162.js.map": "/G2werse/static/js/main.3649a162.js.map",
+    "main.cb9e1c2c.js.map": "/G2werse/static/js/main.cb9e1c2c.js.map",
     "453.8ea5f859.chunk.js.map": "/G2werse/static/js/453.8ea5f859.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.cb9a4d99.css",
-    "static/js/main.3649a162.js"
+    "static/js/main.cb9e1c2c.js"
   ]
 }
